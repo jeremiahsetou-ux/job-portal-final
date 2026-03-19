@@ -44,7 +44,7 @@ export default function HomePage() {
   const [location, setLocation] = useState('');
 
   const cities = ['Johannesburg', 'Cape Town', 'Durban', 'Pretoria', 'Port Elizabeth', 'Bloemfontein'];
-  
+
   const featuredJobs = [
     { id: 1, title: 'Senior Software Developer', company: 'Standard Bank', location: 'Johannesburg', salary: 'R850k - R1.2m', type: 'Permanent', posted: '2 days ago', logo: 'SB' },
     { id: 2, title: 'Marketing Manager', company: 'Sasol', location: 'Sandton', salary: 'R600k - R850k', type: 'Permanent', posted: '1 day ago', logo: 'SS' },
@@ -89,8 +89,8 @@ export default function HomePage() {
             <div className="bg-white rounded-xl shadow-2xl p-2 flex flex-col md:flex-row gap-2">
               <div className="flex-1 flex items-center gap-3 px-4 py-3 border-b md:border-b-0 md:border-r border-slate-200">
                 <Search className="text-slate-400" size={22} />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Job title, keywords or company"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -99,8 +99,8 @@ export default function HomePage() {
               </div>
               <div className="flex-1 flex items-center gap-3 px-4 py-3">
                 <MapPin className="text-slate-400" size={22} />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="City or Province"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
@@ -132,7 +132,7 @@ export default function HomePage() {
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-6 py-16 space-y-20">
-        
+
         {/* Browse by Location */}
         <section>
           <div className="flex items-center justify-between mb-8">
@@ -143,7 +143,7 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {cities.map((city, idx) => (
-              <Link 
+              <Link
                 key={city}
                 href={`/jobs/${city.toLowerCase()}`}
                 className="bg-white p-5 rounded-xl shadow-sm hover:shadow-lg border border-slate-200 hover:border-blue-300 transition-all text-center group"
@@ -167,7 +167,7 @@ export default function HomePage() {
               Browse All Jobs
             </Link>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-4">
             {featuredJobs.map((job) => (
               <div key={job.id} className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-blue-300 transition-all group cursor-pointer">
@@ -191,9 +191,8 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
                   <span className="text-slate-600 font-semibold text-sm">{job.salary}</span>
-                  <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                    job.type === 'Government' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
-                  }`}>
+                  <span className={`text-xs font-semibold px-3 py-1 rounded-full ${job.type === 'Government' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                    }`}>
                     {job.type}
                   </span>
                 </div>
@@ -208,7 +207,7 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-slate-900 mb-3">Career Tools</h2>
             <p className="text-slate-500 max-w-xl mx-auto">Everything you need to land your dream job in South Africa</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <Link href="/cv-builder" className="group text-center p-6 rounded-xl hover:bg-blue-50 transition-all">
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 transition-all">
@@ -228,13 +227,13 @@ export default function HomePage() {
               <span className="text-green-600 font-semibold group-hover:underline">Get Started →</span>
             </Link>
 
-            <Link href="/cv-builder" className="group text-center p-6 rounded-xl hover:bg-purple-50 transition-all">
+            <Link href="/career-advice" className="group text-center p-6 rounded-xl hover:bg-purple-50 transition-all">
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-600 transition-all">
                 <Layout className="text-purple-600 group-hover:text-white" size={32} />
               </div>
-              <h3 className="font-bold text-xl text-slate-900 mb-2">CV Templates</h3>
-              <p className="text-slate-500 mb-4">Professional templates designed for SA employers</p>
-              <span className="text-purple-600 font-semibold group-hover:underline">Browse Templates →</span>
+              <h3 className="font-bold text-xl text-slate-900 mb-2">Career Advice</h3>
+              <p className="text-slate-500 mb-4">Tips and guides to help you land your dream job</p>
+              <span className="text-purple-600 font-semibold group-hover:underline">Read More →</span>
             </Link>
           </div>
         </section>
@@ -244,7 +243,7 @@ export default function HomePage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-8">Top Employers Hiring Now</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {topEmployers.map((employer) => (
-              <Link 
+              <Link
                 key={employer.name}
                 href={`/company/${employer.name.toLowerCase()}`}
                 className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition-all text-center group"
