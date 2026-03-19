@@ -30,7 +30,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Features Grid */}
+      {/* Main Content Grid */}
       <main className="max-w-6xl mx-auto py-20 px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-black uppercase italic tracking-tight">Our Career Tools</h2>
@@ -74,35 +74,41 @@ export default function HomePage() {
             <span className="text-slate-900 font-black text-xs uppercase tracking-widest group-hover:underline">Get the Form →</span>
           </Link>
         </div>
-
-        {/* Trust Banner */}
-        <div className="mt-20 bg-slate-900 rounded-[3rem] p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-10 opacity-10">
-            <Star size={120} />
-          </div>
-          <h4 className="text-2xl md:text-4xl font-black uppercase italic mb-6 leading-tight">
-            Stop Sending <span className="text-blue-400 underline">Boring</span> Applications
-          </h4>
-          <p className="text-slate-400 font-bold max-w-xl mx-auto mb-10 italic">
-            "JobHelper transformed my job search. The Z83 guide alone saved me from three common mistakes!" — Happy User
-          </p>
-          <div className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-500">
-            Trusted by Job Seekers Nationwide
-          </div>
-        </div>
       </main>
 
-      {/* Footer */}
-      <footer className="py-20 text-center border-t border-slate-200 bg-white">
-        <div className="text-2xl font-black text-blue-600 italic tracking-tighter mb-4 uppercase">JobHelper.co.za</div>
-        <div className="flex justify-center gap-6 mb-8 text-slate-400 font-bold text-xs uppercase tracking-widest">
-          <Link href="/about" className="hover:text-blue-600 transition-colors">About</Link>
-          <span>•</span>
-          <Link href="/z83-helper" className="hover:text-blue-600 transition-colors">Z83 Guide</Link>
-          <span>•</span>
-          <Link href="/cv-builder" className="hover:text-blue-600 transition-colors">CV Builder</Link>
+      {/* Footer Section */}
+      <footer className="py-20 border-t border-slate-200 bg-white">
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
+          
+          {/* Brand Info */}
+          <div>
+            <div className="text-2xl font-black text-blue-600 italic tracking-tighter mb-4 uppercase">JobHelper.co.za</div>
+            <p className="text-slate-400 font-bold text-xs max-w-sm leading-relaxed">
+              Empowering South African job seekers with professional tools and verified information since 2006.
+            </p>
+          </div>
+
+          {/* Quick Links Section */}
+          <div className="space-y-2">
+            <h4 className="font-black uppercase tracking-widest text-blue-600 text-xs mb-6 italic underline decoration-blue-200 underline-offset-8">Quick Links</h4>
+            <nav className="flex flex-col gap-4">
+              <Link href="/z83-helper" className="text-slate-500 hover:text-blue-600 font-bold text-sm transition-colors block uppercase tracking-tight">
+                Z83 Form Guide
+              </Link>
+              <Link href="/cv-builder" className="text-slate-500 hover:text-blue-600 font-bold text-sm transition-colors block uppercase tracking-tight">
+                CV Builder
+              </Link>
+              <Link href="/template-builder" className="text-slate-500 hover:text-blue-600 font-bold text-sm transition-colors block uppercase tracking-tight">
+                Template Designer
+              </Link>
+            </nav>
+          </div>
         </div>
-        <p className="text-slate-300 text-[10px] font-black uppercase tracking-[0.3em]">Built for the South African Workforce • 2026</p>
+
+        {/* Bottom Copyright */}
+        <div className="mt-16 pt-8 border-t border-slate-100 text-center">
+          <p className="text-slate-300 text-[10px] font-black uppercase tracking-[0.3em]">Built for the South African Workforce • 2026</p>
+        </div>
       </footer>
     </div>
   );

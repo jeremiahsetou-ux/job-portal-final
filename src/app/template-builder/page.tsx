@@ -1,135 +1,96 @@
 "use client";
 
 import React, { useState } from 'react';
-import { User, Mail, Phone, MapPin, Briefcase, GraduationCap, ArrowLeft, Palette, Download, Sparkles } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Palette, ArrowLeft, Download } from 'lucide-react';
 import Link from 'next/link';
 
-export default function TemplateBuilder() {
-  const [profileColor, setProfileColor] = useState('bg-slate-800'); 
-  const [sidebarColor, setSidebarColor] = useState('bg-cyan-600'); 
-
-  const [formData, setFormData] = useState({
-    fullName: "Olivia Taylor",
-    email: "lily.french@example.co.uk",
-    phone: "07941 234 567",
-    location: "Bradford BD1 6YU",
-    summary: "Highly organised and disciplined pharmacy leader with excellent communication and conflict resolution skills. Competent in managing supplies, reviewing service quality, and maintaining patient confidentiality and satisfaction.",
-    experience: "June 2017 - Current\nPharmacist King Chemist | Birmingham\n• Checked more than 30 patient orders against histories each day.\n• Provided patient counselling regarding OTC medications.",
-    education: "2010\nMasters degree in pharmacy\nBirmingham University, Birmingham"
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+export default function TemplatePro() {
+  const [accentColor, setAccentColor] = useState('#0099bc'); // The Cyan from your image
 
   return (
-    <div className="min-h-screen bg-slate-100 font-sans text-slate-900">
-      <nav className="bg-white border-b h-20 sticky top-0 z-50 px-6 flex items-center justify-between shadow-sm">
-        <Link href="/" className="flex items-center gap-2 font-black text-blue-600 italic uppercase tracking-tighter hover:text-blue-800 transition-all text-xl">
-          <ArrowLeft size={20} /> JOBHELPER
+    <div className="min-h-screen bg-slate-100">
+      <nav className="bg-white border-b h-20 flex items-center px-6 justify-between sticky top-0 z-50">
+        <Link href="/" className="flex items-center gap-2 font-black text-blue-600 italic uppercase">
+          <ArrowLeft size={20}/> BACK TO PORTAL
         </Link>
-        <div className="flex items-center gap-3 text-sm font-black text-slate-600 uppercase italic">
-          <Palette className="text-blue-600" size={18} />
-          <span>Style Customizer</span>
+        <div className="flex gap-2">
+           <input type="color" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="w-10 h-10 rounded-full border-0 cursor-pointer" />
+           <button className="bg-blue-600 text-white px-6 py-2 rounded-xl font-black uppercase text-xs shadow-lg">Download PDF</button>
         </div>
       </nav>
 
-      <div className="bg-white border-b p-6 max-w-7xl mx-auto mt-6 rounded-3xl shadow-lg mb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <label className="text-[10px] font-black text-slate-400 mb-3 block uppercase tracking-[0.2em]">Sidebar & Accents</label>
-            <div className="flex gap-3">
-              <button onClick={() => setSidebarColor('bg-cyan-600')} className="w-12 h-12 rounded-xl bg-cyan-600 border-4 border-white shadow-lg transform hover:scale-110 transition-all"></button>
-              <button onClick={() => setSidebarColor('bg-blue-600')} className="w-12 h-12 rounded-xl bg-blue-600 border-2 border-slate-200 transform hover:scale-110 transition-all"></button>
-              <button onClick={() => setSidebarColor('bg-rose-600')} className="w-12 h-12 rounded-xl bg-rose-600 border-2 border-slate-200 transform hover:scale-110 transition-all"></button>
-              <button onClick={() => setSidebarColor('bg-indigo-600')} className="w-12 h-12 rounded-xl bg-indigo-600 border-2 border-slate-200 transform hover:scale-110 transition-all"></button>
-            </div>
-          </div>
-          <div>
-            <label className="text-[10px] font-black text-slate-400 mb-3 block uppercase tracking-[0.2em]">Profile Background</label>
-            <div className="flex gap-3">
-              <button onClick={() => setProfileColor('bg-slate-800')} className="w-12 h-12 rounded-xl bg-slate-800 border-4 border-white shadow-lg transform hover:scale-110 transition-all"></button>
-              <button onClick={() => setProfileColor('bg-slate-900')} className="w-12 h-12 rounded-xl bg-slate-900 border-2 border-slate-200 transform hover:scale-110 transition-all"></button>
-              <button onClick={() => setProfileColor('bg-blue-950')} className="w-12 h-12 rounded-xl bg-blue-950 border-2 border-slate-200 transform hover:scale-110 transition-all"></button>
-              <button onClick={() => setProfileColor('bg-black')} className="w-12 h-12 rounded-xl bg-black border-2 border-slate-200 transform hover:scale-110 transition-all"></button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <main className="max-w-7xl mx-auto py-4 px-6 grid lg:grid-cols-2 gap-12 items-start pb-20">
-        {/* Form Inputs */}
+      <main className="max-w-7xl mx-auto py-12 px-6 grid lg:grid-cols-2 gap-12">
+        {/* Input Controls */}
         <div className="space-y-6">
-          <section className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-            <h2 className="text-xl font-black mb-6 uppercase italic flex items-center gap-2">
-              <Sparkles className="text-blue-600" size={20} /> Identity
-            </h2>
-            <div className="space-y-4">
-              <input name="fullName" onChange={handleChange} value={formData.fullName} placeholder="Full Name" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 font-bold" />
-              <div className="grid grid-cols-2 gap-4">
-                <input name="email" onChange={handleChange} value={formData.email} placeholder="Email" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 font-bold" />
-                <input name="phone" onChange={handleChange} value={formData.phone} placeholder="Phone" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 font-bold" />
-              </div>
-              <input name="location" onChange={handleChange} value={formData.location} placeholder="Location" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 font-bold" />
+          <section className="bg-white p-8 rounded-[2rem] border shadow-sm">
+            <h2 className="text-xl font-black uppercase italic mb-6">Editor</h2>
+            <div className="space-y-4 font-bold">
+               <input placeholder="Full Name" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500" defaultValue="Olivia Taylor" />
+               <textarea placeholder="Professional Summary" rows={4} className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 resize-none" defaultValue="Highly organised and disciplined pharmacy leader..." />
             </div>
-          </section>
-
-          <section className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-            <h2 className="text-xl font-black mb-6 uppercase italic flex items-center gap-2 text-slate-900">
-              Professional Details
-            </h2>
-            <textarea name="summary" onChange={handleChange} value={formData.summary} rows={4} placeholder="Summary" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 font-bold mb-4 resize-none" />
-            <textarea name="experience" onChange={handleChange} value={formData.experience} rows={6} placeholder="Experience" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 font-bold mb-4 resize-none" />
-            <textarea name="education" onChange={handleChange} value={formData.education} rows={3} placeholder="Education" className="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:border-blue-500 font-bold resize-none" />
           </section>
         </div>
 
-        {/* The Designer CV Preview */}
-        <div className="lg:sticky lg:top-32">
-          <div className="bg-white shadow-2xl w-full aspect-[1/1.41] flex overflow-hidden border">
-            {/* Sidebar */}
-            <div className={`w-[35%] ${sidebarColor} text-white flex flex-col`}>
-              <div className={`h-64 ${profileColor} flex items-center justify-center p-8`}>
-                <div className="w-full aspect-square bg-slate-200 rounded-lg overflow-hidden flex items-center justify-center text-slate-400">
-                  <User size={80} strokeWidth={1} />
-                </div>
-              </div>
-              <div className="p-8 space-y-6 flex-1">
-                <div className="space-y-4 text-[11px] font-bold uppercase tracking-wider">
-                  <div className="flex items-center gap-3"><MapPin size={14}/> {formData.location}</div>
-                  <div className="flex items-center gap-3"><Phone size={14}/> {formData.phone}</div>
-                  <div className="flex items-center gap-3"><Mail size={14}/> {formData.email}</div>
-                </div>
-                <div className="pt-10">
-                  <h3 className="text-xs font-black uppercase tracking-[0.2em] border-b border-white/30 pb-2 mb-4 italic">Summary</h3>
-                  <p className="text-[10px] leading-relaxed font-medium text-white/90">{formData.summary}</p>
-                </div>
-              </div>
+        {/* The "Olivia Taylor" Layout (Matches image_6dc8e3.png) */}
+        <div className="bg-white shadow-2xl w-full aspect-[1/1.41] flex border overflow-hidden">
+          {/* Sidebar */}
+          <div className="w-[35%] flex flex-col" style={{ backgroundColor: accentColor }}>
+            {/* Profile Photo Area (Dark background) */}
+            <div className="h-64 bg-slate-800 flex items-center justify-center p-8">
+               <div className="w-full aspect-square bg-slate-200 border-4 border-white overflow-hidden flex items-center justify-center">
+                  <User size={80} className="text-slate-400" />
+               </div>
             </div>
+            {/* Contact & Skills Section (Blue background with geometric vibe) */}
+            <div className="p-8 text-white space-y-10">
+               <div className="space-y-3 text-[10px] font-bold uppercase tracking-wider">
+                  <div className="flex items-center gap-2"><MapPin size={12}/> Bradford BD1 6YU</div>
+                  <div className="flex items-center gap-2"><Phone size={12}/> 07941 234 567</div>
+                  <div className="flex items-center gap-2"><Mail size={12}/> lily.french@example.co.uk</div>
+               </div>
+               
+               <div>
+                  <h3 className="text-sm font-black uppercase tracking-[0.2em] border-b border-white/30 pb-2 mb-4">Summary</h3>
+                  <p className="text-[9px] leading-relaxed font-medium">Highly organised and disciplined pharmacy leader with excellent communication skills...</p>
+               </div>
 
-            {/* Main Section */}
-            <div className="flex-1 p-12 flex flex-col bg-white">
-              <h1 className={`text-5xl font-black uppercase italic tracking-tighter mb-12 ${sidebarColor.replace('bg-', 'text-')}`}>
-                {formData.fullName}
-              </h1>
-              
-              <div className="space-y-12">
-                <section>
-                  <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-900 border-b-2 border-slate-100 pb-2 mb-6 italic">Experience</h3>
-                  <p className="text-[11px] leading-relaxed text-slate-600 whitespace-pre-line font-medium">{formData.experience}</p>
-                </section>
-
-                <section>
-                  <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-900 border-b-2 border-slate-100 pb-2 mb-6 italic">Education</h3>
-                  <p className="text-[11px] leading-relaxed text-slate-600 whitespace-pre-line font-medium">{formData.education}</p>
-                </section>
-              </div>
-
-              <div className="mt-auto pt-10 flex justify-between items-center opacity-20">
-                <span className="text-[8px] font-black uppercase tracking-widest">JobHelper.co.za</span>
-                <span className="text-[8px] font-black uppercase tracking-widest italic">Professional Template</span>
-              </div>
+               <div>
+                  <h3 className="text-sm font-black uppercase tracking-[0.2em] border-b border-white/30 pb-2 mb-4">Skills</h3>
+                  <ul className="text-[9px] font-bold uppercase space-y-1 opacity-90">
+                    <li>• Interpreting orders</li>
+                    <li>• Dosing recommendations</li>
+                    <li>• Compounding abilities</li>
+                  </ul>
+               </div>
             </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 p-12">
+             <h1 className="text-5xl font-black uppercase italic tracking-tighter mb-2" style={{ color: accentColor }}>Olivia Taylor</h1>
+             <div className="h-1 w-full mb-12" style={{ backgroundColor: accentColor }}></div>
+             
+             <section className="mb-12">
+                <h2 className="text-sm font-black uppercase tracking-[0.3em] text-slate-800 mb-6 italic">Experience</h2>
+                <div className="space-y-8">
+                   <div>
+                      <h4 className="text-xs font-black uppercase tracking-tight">Pharmacist King Chemist | Birmingham</h4>
+                      <p className="text-[9px] font-bold text-slate-400 mb-2">June 2017 - Current</p>
+                      <ul className="text-[10px] text-slate-600 space-y-1 list-disc pl-4">
+                         <li>Checked more than 30 patient orders against histories each day.</li>
+                         <li>Provided patient counselling regarding OTC medications.</li>
+                      </ul>
+                   </div>
+                </div>
+             </section>
+
+             <section>
+                <h2 className="text-sm font-black uppercase tracking-[0.3em] text-slate-800 mb-6 italic">Education</h2>
+                <div>
+                   <h4 className="text-xs font-black uppercase tracking-tight">Masters degree in pharmacy</h4>
+                   <p className="text-[9px] font-bold text-slate-400">Birmingham University | 2010</p>
+                </div>
+             </section>
           </div>
         </div>
       </main>
