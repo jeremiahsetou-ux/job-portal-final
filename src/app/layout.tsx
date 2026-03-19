@@ -2,15 +2,13 @@
 import "./globals.css";
 import Link from "next/link";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
         <header className="bg-white border-b sticky top-0 z-50">
           <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-            <Link href="/" className="font-bold text-blue-600 text-xl">
-              JOBHELPER.co.za
-            </Link>
+            <Link href="/" className="font-bold text-blue-600 text-xl">JOBHELPER.co.za</Link>
             <nav className="flex gap-6">
               <Link href="/find-jobs" className="hover:text-blue-600">Find Jobs</Link>
               <Link href="/cv-builder" className="hover:text-blue-600">CV Builder</Link>
@@ -21,7 +19,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        {/* Main content - children should NOT have <html> or <body> */}
         <main className="flex-1">{children}</main>
 
         <footer className="bg-slate-900 text-white py-8 mt-12">

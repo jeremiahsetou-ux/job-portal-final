@@ -1,55 +1,109 @@
-import "./globals.css"; // Tailwind
-import Link from "next/link";
+"use client";
 
-export const metadata = {
-  title: "JobHelper.co.za",
-  description: "Find jobs, learnerships, and government vacancies in South Africa",
-};
+import React from 'react';
+import { Search, FileText, Layout, ArrowRight, ShieldCheck, Zap, Star } from 'lucide-react';
+import Link from 'next/link';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function HomePage() {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
-        {/* Header */}
-        <header className="bg-white border-b sticky top-0 z-50">
-          <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-            <Link href="/" className="font-bold text-blue-600 text-xl">
-              JOBHELPER.co.za
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
+      {/* Hero Section */}
+      <header className="bg-white border-b pt-20 pb-16 px-6 text-center shadow-sm">
+        <div className="max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6 border border-blue-100">
+            <ShieldCheck size={14} /> South Africa's #1 Career Toolkit
+          </div>
+          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter italic uppercase leading-none">
+            Get Hired <span className="text-blue-600">Faster.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed mb-10">
+            The all-in-one platform for South African job seekers. Build professional CVs, download official forms, and find your next opportunity.
+          </p>
+          <div className="flex flex-col md:flex-row justify-center gap-4">
+            <Link href="/cv-builder" className="bg-blue-600 text-white px-10 py-5 rounded-2xl font-black hover:bg-blue-700 transition-all shadow-xl flex items-center justify-center gap-2 uppercase tracking-wide">
+              Create My CV <ArrowRight size={20} />
             </Link>
-            <nav className="flex gap-6">
-              <Link href="/find-jobs" className="hover:text-blue-600">Find Jobs</Link>
-              <Link href="/cv-builder" className="hover:text-blue-600">CV Builder</Link>
-              <Link href="/template-builder" className="hover:text-blue-600">Template Builder</Link>
-              <Link href="/z83-form" className="hover:text-blue-600">Z83 Guide</Link>
-              <Link href="/post-job" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Post a Job</Link>
-            </nav>
+            <Link href="/z83-helper" className="bg-slate-900 text-white px-10 py-5 rounded-2xl font-black hover:bg-slate-800 transition-all shadow-xl flex items-center justify-center gap-2 uppercase tracking-wide">
+              Z83 Masterclass
+            </Link>
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* Main content */}
-        <main className="flex-1">{children}</main>
+      {/* Features Grid */}
+      <main className="max-w-6xl mx-auto py-20 px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-black uppercase italic tracking-tight">Our Career Tools</h2>
+          <div className="h-1.5 w-20 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+        </div>
 
-        {/* Footer */}
-        <footer className="bg-slate-900 text-white py-8 mt-12">
-          <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between gap-6">
-            <div>
-              <h4 className="font-bold mb-2">JOBHELPER.co.za</h4>
-              <p>Helping South Africans find jobs, learnerships, and government vacancies.</p>
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Tool 1: CV Builder */}
+          <Link href="/cv-builder" className="group bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all border-b-8 border-b-blue-600">
+            <div className="bg-blue-50 w-14 h-14 rounded-2xl flex items-center justify-center text-blue-600 mb-8 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <FileText size={28} />
             </div>
-            <div>
-              <h4 className="font-bold mb-2">Cities</h4>
-              <p>Johannesburg</p>
-              <p>Cape Town</p>
-              <p>Pretoria</p>
+            <h3 className="text-2xl font-black mb-4 uppercase italic tracking-tight text-slate-900">CV Builder</h3>
+            <p className="text-slate-500 font-bold text-sm leading-relaxed mb-6">
+              Create a professional, South African standard CV in minutes with our easy-to-use editor.
+            </p>
+            <span className="text-blue-600 font-black text-xs uppercase tracking-widest group-hover:underline">Start Building →</span>
+          </Link>
+
+          {/* Tool 2: Template Designer */}
+          <Link href="/template-builder" className="group bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all border-b-8 border-b-cyan-500">
+            <div className="bg-cyan-50 w-14 h-14 rounded-2xl flex items-center justify-center text-cyan-600 mb-8 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+              <Layout size={28} />
             </div>
-            <div>
-              <h4 className="font-bold mb-2">Tools</h4>
-              <Link href="/cv-builder" className="block hover:underline">CV Builder</Link>
-              <Link href="/z83-form" className="block hover:underline">Z83 Form</Link>
+            <h3 className="text-2xl font-black mb-4 uppercase italic tracking-tight text-slate-900">Template Pro</h3>
+            <p className="text-slate-500 font-bold text-sm leading-relaxed mb-6">
+              Customize colors and layouts to stand out from the crowd. Modern designs for 2026.
+            </p>
+            <span className="text-cyan-600 font-black text-xs uppercase tracking-widest group-hover:underline">Design Now →</span>
+          </Link>
+
+          {/* Tool 3: Z83 Helper */}
+          <Link href="/z83-helper" className="group bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-2xl transition-all border-b-8 border-b-slate-900">
+            <div className="bg-slate-100 w-14 h-14 rounded-2xl flex items-center justify-center text-slate-900 mb-8 group-hover:bg-slate-900 group-hover:text-white transition-all">
+              <Zap size={28} />
             </div>
+            <h3 className="text-2xl font-black mb-4 uppercase italic tracking-tight text-slate-900">Z83 Helper</h3>
+            <p className="text-slate-500 font-bold text-sm leading-relaxed mb-6">
+              Download the official 2026 Z83 form and follow our guide to avoid government rejection.
+            </p>
+            <span className="text-slate-900 font-black text-xs uppercase tracking-widest group-hover:underline">Get the Form →</span>
+          </Link>
+        </div>
+
+        {/* Trust Banner */}
+        <div className="mt-20 bg-slate-900 rounded-[3rem] p-10 md:p-16 text-center text-white shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-10 opacity-10">
+            <Star size={120} />
           </div>
-        </footer>
-      </body>
-    </html>
+          <h4 className="text-2xl md:text-4xl font-black uppercase italic mb-6 leading-tight">
+            Stop Sending <span className="text-blue-400 underline">Boring</span> Applications
+          </h4>
+          <p className="text-slate-400 font-bold max-w-xl mx-auto mb-10 italic">
+            "JobHelper transformed my job search. The Z83 guide alone saved me from three common mistakes!" — Happy User
+          </p>
+          <div className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-500">
+            Trusted by Job Seekers Nationwide
+          </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="py-20 text-center border-t border-slate-200 bg-white">
+        <div className="text-2xl font-black text-blue-600 italic tracking-tighter mb-4 uppercase">JobHelper.co.za</div>
+        <div className="flex justify-center gap-6 mb-8 text-slate-400 font-bold text-xs uppercase tracking-widest">
+          <Link href="/about" className="hover:text-blue-600 transition-colors">About</Link>
+          <span>•</span>
+          <Link href="/z83-helper" className="hover:text-blue-600 transition-colors">Z83 Guide</Link>
+          <span>•</span>
+          <Link href="/cv-builder" className="hover:text-blue-600 transition-colors">CV Builder</Link>
+        </div>
+        <p className="text-slate-300 text-[10px] font-black uppercase tracking-[0.3em]">Built for the South African Workforce • 2026</p>
+      </footer>
+    </div>
   );
 }
