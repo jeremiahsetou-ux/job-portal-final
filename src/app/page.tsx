@@ -1,40 +1,55 @@
-import React from "react";
+import "./globals.css"; // Tailwind
 import Link from "next/link";
 
-export default function HomePage() {
+export const metadata = {
+  title: "JobHelper.co.za",
+  description: "Find jobs, learnerships, and government vacancies in South Africa",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="max-w-6xl mx-auto py-12 px-6">
+    <html lang="en">
+      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+        {/* Header */}
+        <header className="bg-white border-b sticky top-0 z-50">
+          <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <Link href="/" className="font-bold text-blue-600 text-xl">
+              JOBHELPER.co.za
+            </Link>
+            <nav className="flex gap-6">
+              <Link href="/find-jobs" className="hover:text-blue-600">Find Jobs</Link>
+              <Link href="/cv-builder" className="hover:text-blue-600">CV Builder</Link>
+              <Link href="/template-builder" className="hover:text-blue-600">Template Builder</Link>
+              <Link href="/z83-form" className="hover:text-blue-600">Z83 Guide</Link>
+              <Link href="/post-job" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Post a Job</Link>
+            </nav>
+          </div>
+        </header>
 
-      <h1 className="text-4xl md:text-6xl font-black mb-6 text-center">
-        Find Your Next Job in <span className="text-blue-600 italic">South Africa</span>
-      </h1>
-      <p className="text-center text-slate-600 mb-12">
-        Jobs, Learnerships, and Government Vacancies from top employers.
-      </p>
+        {/* Main content */}
+        <main className="flex-1">{children}</main>
 
-      {/* Search */}
-      <div className="max-w-2xl mx-auto flex gap-2 mb-12">
-        <input type="text" placeholder="Job title..." className="flex-1 border rounded px-4 py-2"/>
-        <input type="text" placeholder="City..." className="flex-1 border rounded px-4 py-2"/>
-        <button className="bg-blue-600 text-white px-6 rounded font-bold">Search</button>
-      </div>
-
-      {/* Latest Jobs */}
-      <h2 className="text-2xl font-bold mb-4">Latest Jobs in South Africa</h2>
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <div className="border p-4 rounded">Cashier - Shoprite<br/><Link href="#" className="text-blue-600">View Job →</Link></div>
-        <div className="border p-4 rounded">Admin Clerk - Government<br/><Link href="#" className="text-blue-600">View Job →</Link></div>
-        <div className="border p-4 rounded">General Worker - Transnet<br/><Link href="#" className="text-blue-600">View Job →</Link></div>
-      </div>
-
-      {/* Browse Categories */}
-      <h2 className="text-2xl font-bold mb-4">Browse Categories</h2>
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <Link href="#" className="border p-6 rounded hover:shadow">Learnerships</Link>
-        <Link href="#" className="border p-6 rounded hover:shadow">Government Jobs</Link>
-        <Link href="/cv-builder" className="border p-6 rounded hover:shadow">Free CV Builder</Link>
-      </div>
-
-    </div>
+        {/* Footer */}
+        <footer className="bg-slate-900 text-white py-8 mt-12">
+          <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between gap-6">
+            <div>
+              <h4 className="font-bold mb-2">JOBHELPER.co.za</h4>
+              <p>Helping South Africans find jobs, learnerships, and government vacancies.</p>
+            </div>
+            <div>
+              <h4 className="font-bold mb-2">Cities</h4>
+              <p>Johannesburg</p>
+              <p>Cape Town</p>
+              <p>Pretoria</p>
+            </div>
+            <div>
+              <h4 className="font-bold mb-2">Tools</h4>
+              <Link href="/cv-builder" className="block hover:underline">CV Builder</Link>
+              <Link href="/z83-form" className="block hover:underline">Z83 Form</Link>
+            </div>
+          </div>
+        </footer>
+      </body>
+    </html>
   );
 }
