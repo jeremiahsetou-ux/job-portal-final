@@ -378,7 +378,7 @@ export default function HomePage() {
               <span className="text-green-600 font-semibold group-hover:underline text-sm">Download →</span>
             </Link>
 
-            <Link href="/find-jobs" className="group text-center p-5 sm:p-6 rounded-xl hover:bg-purple-50 transition-all border border-transparent hover:border-purple-100 sm:col-span-2 lg:col-span-1">
+            <Link href="/career-advice" className="group text-center p-5 sm:p-6 rounded-xl hover:bg-purple-50 transition-all border border-transparent hover:border-purple-100 sm:col-span-2 lg:col-span-1">
               <div className="w-14 h-14 sm:w-16 sm:h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-purple-600 transition-all">
                 <GraduationCap className="text-purple-600 group-hover:text-white" size={28} />
               </div>
