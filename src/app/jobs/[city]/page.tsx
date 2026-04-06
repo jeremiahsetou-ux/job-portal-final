@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { MapPin, Briefcase, Building2, ExternalLink, ChevronRight, Users, TrendingUp, ArrowRight, Search, Filter } from 'lucide-react';
+import { MapPin, Briefcase, Building2, ChevronRight, Users, TrendingUp, ArrowRight, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
 
 // City Database with SEO-optimized content
@@ -9,7 +9,7 @@ const CITIES: Record<string, CityData> = {
   'johannesburg': {
     name: 'Johannesburg',
     province: 'Gauteng',
-    description: 'Johannesburg is South Africa\'s economic powerhouse and largest city. Known as the City of Gold, it offers diverse opportunities in finance, mining, technology, and services sectors.',
+    description: 'Johannesburg is South Africa\'s economic powerhouse and largest cityData. Known as the City of Gold, it offers diverse opportunities in finance, mining, technology, and services sectors.',
     population: '5.6 million',
     majorIndustries: ['Finance & Banking', 'Mining', 'Technology', 'Retail', 'Manufacturing'],
     avgSalary: 'R280,000 - R450,000',
@@ -29,7 +29,7 @@ const CITIES: Record<string, CityData> = {
   'durban': {
     name: 'Durban',
     province: 'KwaZulu-Natal',
-    description: 'Durban is South Africa\'s third-largest city and busiest port. It offers opportunities in logistics, manufacturing, tourism, and the growing Dube TradePort special economic zone.',
+    description: 'Durban is South Africa\'s third-largest cityData and busiest port. It offers opportunities in logistics, manufacturing, tourism, and the growing Dube TradePort special economic zone.',
     population: '3.9 million',
     majorIndustries: ['Logistics & Transport', 'Manufacturing', 'Tourism', 'Sugar Industry', 'Chemicals'],
     avgSalary: 'R220,000 - R380,000',
@@ -49,7 +49,7 @@ const CITIES: Record<string, CityData> = {
   'port-elizabeth': {
     name: 'Port Elizabeth',
     province: 'Eastern Cape',
-    description: 'Port Elizabeth (Gqeberha) is a major automotive manufacturing hub and coastal city. It offers opportunities in vehicle production, logistics, and renewable energy projects.',
+    description: 'Port Elizabeth (Gqeberha) is a major automotive manufacturing hub and coastal cityData. It offers opportunities in vehicle production, logistics, and renewable energy projects.',
     population: '1.2 million',
     majorIndustries: ['Automotive Manufacturing', 'Renewable Energy', 'Tourism', 'Agriculture', 'Logistics'],
     avgSalary: 'R200,000 - R340,000',
@@ -82,7 +82,7 @@ interface CityData {
 const DEFAULT_CITY: CityData = {
   name: 'City',
   province: 'South Africa',
-  description: 'Explore job opportunities in this South African city. Browse available positions and connect with top employers.',
+  description: 'Explore job opportunities in this South African cityData. Browse available positions and connect with top employers.',
   population: '500,000+',
   majorIndustries: ['Various'],
   avgSalary: 'Market Related',
@@ -90,7 +90,7 @@ const DEFAULT_CITY: CityData = {
   topEmployers: ['Various Companies'],
 };
 
-// Sample jobs for each city
+// Sample jobs for each cityData
 const CITY_JOBS: Record<string, Array<{title: string; company: string; type: string; salary: string; posted: string}>> = {
   'johannesburg': [
     { title: 'Senior Software Developer', company: 'Standard Bank', type: 'Permanent', salary: 'R700k - R950k', posted: '1 day ago' },
@@ -148,11 +148,12 @@ const DEFAULT_JOBS = [
   { title: 'Sales Consultant', company: 'Retail Group', type: 'Permanent', salary: 'R120k - R180k', posted: 'Recently' },
 ];
 
-export default function CityPage({ params }: { params: { city: string } }) {
-  const citySlug = params.city.toLowerCase();
-  const city = CITIES[citySlug] || { 
+export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
+  const { city } = await params;
+  const citySlug = city.toLowerCase();
+  const cityData = CITIES[citySlug] || { 
     ...DEFAULT_CITY, 
-    name: params.city.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) 
+    name: city.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) 
   };
   
   const jobs = CITY_JOBS[citySlug] || DEFAULT_JOBS;
@@ -162,7 +163,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacityData-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" />
         </div>
@@ -173,36 +174,36 @@ export default function CityPage({ params }: { params: { city: string } }) {
             <ChevronRight size={14} />
             <Link href="/find-jobs" className="hover:underline">Jobs</Link>
             <ChevronRight size={14} />
-            <span>{city.name}</span>
+            <span>{cityData.name}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-            Jobs in {city.name}
+            Jobs in {cityData.name}
           </h1>
           <p className="text-blue-100 text-base sm:text-lg max-w-2xl mb-6 sm:mb-8">
-            {city.description}
+            {cityData.description}
           </p>
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center">
               <Briefcase className="mx-auto mb-2 text-yellow-300" size={24} />
-              <p className="text-2xl sm:text-3xl font-bold">{city.jobCount}</p>
+              <p className="text-2xl sm:text-3xl font-bold">{cityData.jobCount}</p>
               <p className="text-blue-100 text-xs sm:text-sm">Available Jobs</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center">
               <Building2 className="mx-auto mb-2 text-yellow-300" size={24} />
-              <p className="text-2xl sm:text-3xl font-bold">{city.topEmployers.length}+</p>
+              <p className="text-2xl sm:text-3xl font-bold">{cityData.topEmployers.length}+</p>
               <p className="text-blue-100 text-xs sm:text-sm">Top Employers</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center">
               <TrendingUp className="mx-auto mb-2 text-yellow-300" size={24} />
-              <p className="text-lg sm:text-xl font-bold">{city.avgSalary}</p>
+              <p className="text-lg sm:text-xl font-bold">{cityData.avgSalary}</p>
               <p className="text-blue-100 text-xs sm:text-sm">Avg. Salary</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 text-center">
               <Users className="mx-auto mb-2 text-yellow-300" size={24} />
-              <p className="text-lg sm:text-xl font-bold">{city.population}</p>
+              <p className="text-lg sm:text-xl font-bold">{cityData.population}</p>
               <p className="text-blue-100 text-xs sm:text-sm">Population</p>
             </div>
           </div>
@@ -221,7 +222,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
                   <Search className="absolute left-3 top-3 text-slate-400" size={18} />
                   <input
                     type="text"
-                    placeholder={`Search jobs in ${city.name}...`}
+                    placeholder={`Search jobs in ${cityData.name}...`}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:border-blue-500 outline-none text-sm"
                   />
                 </div>
@@ -236,7 +237,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
                 <h2 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
                   <Briefcase className="text-blue-600 flex-shrink-0" size={20} />
-                  Latest Jobs in {city.name}
+                  Latest Jobs in {cityData.name}
                   <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-1 rounded-full">
                     {jobs.length} jobs
                   </span>
@@ -261,7 +262,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
                         <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 text-xs sm:text-sm text-slate-400">
                           <span className="flex items-center gap-1">
                             <MapPin size={12} />
-                            {city.name}
+                            {cityData.name}
                           </span>
                           <span>{job.posted}</span>
                         </div>
@@ -295,16 +296,16 @@ export default function CityPage({ params }: { params: { city: string } }) {
             {/* About City */}
             <section className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6">
               <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4">
-                Working in {city.name}
+                Working in {cityData.name}
               </h2>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
-                {city.description} The city offers a diverse range of career opportunities 
-                across multiple sectors including {city.majorIndustries.slice(0, 3).join(', ')}, and more.
+                {cityData.description} The cityData offers a diverse range of career opportunities 
+                across multiple sectors including {cityData.majorIndustries.slice(0, 3).join(', ')}, and more.
               </p>
               
               <h3 className="font-bold text-slate-900 mb-2 sm:mb-3">Major Industries</h3>
               <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
-                {city.majorIndustries.map((industry, index) => (
+                {cityData.majorIndustries.map((industry, index) => (
                   <span key={index} className="bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     {industry}
                   </span>
@@ -322,7 +323,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
                 Top Employers
               </h3>
               <div className="space-y-2 sm:space-y-3">
-                {city.topEmployers.map((employer, index) => (
+                {cityData.topEmployers.map((employer, index) => (
                   <Link
                     key={index}
                     href={`/company/${employer.toLowerCase().replace(/\s+/g, '-')}`}
@@ -345,7 +346,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
             <section className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl shadow-lg p-4 sm:p-6 text-white">
               <h3 className="font-bold mb-3 sm:mb-4 text-base sm:text-lg">Salary Guide</h3>
               <p className="text-blue-100 text-sm mb-4">
-                Average salary ranges in {city.name}:
+                Average salary ranges in {cityData.name}:
               </p>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
@@ -367,12 +368,12 @@ export default function CityPage({ params }: { params: { city: string } }) {
             <section className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 text-base sm:text-lg">Jobs in Other Cities</h3>
               <div className="space-y-2">
-                {otherCities.map((cityKey) => {
-                  const otherCity = CITIES[cityKey];
+                {otherCities.map((cityDataKey) => {
+                  const otherCity = CITIES[cityDataKey];
                   return (
                     <Link
-                      key={cityKey}
-                      href={`/jobs/${cityKey}`}
+                      key={cityDataKey}
+                      href={`/jobs/${cityDataKey}`}
                       className="flex items-center gap-2 p-2 rounded-lg hover:bg-slate-50 transition-colors"
                     >
                       <MapPin size={14} className="text-slate-400 flex-shrink-0" />
@@ -388,7 +389,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
             <section className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-2 text-base sm:text-lg">Boost Your Application</h3>
               <p className="text-slate-600 text-sm mb-3 sm:mb-4">
-                Create a professional CV tailored for {city.name} employers.
+                Create a professional CV tailored for {cityData.name} employers.
               </p>
               <Link
                 href="/cv-builder"
