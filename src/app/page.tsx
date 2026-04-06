@@ -369,7 +369,7 @@ export default function HomePage() {
               <span className="text-blue-600 font-semibold group-hover:underline text-sm">Create CV →</span>
             </Link>
 
-            <Link href="/z83-form" className="group text-center p-5 sm:p-6 rounded-xl hover:bg-green-50 transition-all border border-transparent hover:border-green-100">
+            <Link href="/z83-helper" className="group text-center p-5 sm:p-6 rounded-xl hover:bg-green-50 transition-all border border-transparent hover:border-green-100">
               <div className="w-14 h-14 sm:w-16 sm:h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-green-600 transition-all">
                 <Download className="text-green-600 group-hover:text-white" size={28} />
               </div>
