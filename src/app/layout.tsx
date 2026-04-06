@@ -14,6 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/cv-builder" className="hover:text-blue-600">CV Builder</Link>
 
               <Link href="/z83-helper" className="hover:text-blue-600">Z83 Guide</Link>
+              <Link href="/career-advice" className="hover:text-blue-600">Career Advice</Link>
               <Link href="/sign-in" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Sign In</Link>
             </nav>
           </div>
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <h4 className="font-bold mb-2">Tools</h4>
               <Link href="/cv-builder" className="block hover:underline">CV Builder</Link>
               <Link href="/z83-helper" className="block hover:underline">Z83 Form</Link>
+              <Link href="/career-advice" className="block hover:underline">Career Advice</Link>
             </div>
           </div>
         </footer>
