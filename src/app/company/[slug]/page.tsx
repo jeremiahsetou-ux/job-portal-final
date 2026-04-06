@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Building2, MapPin, Briefcase, ExternalLink, ChevronRight, Star, TrendingUp, Users, Clock, Bookmark, ArrowRight } from 'lucide-react';
+import { Building2, MapPin, Briefcase, ExternalLink, ChevronRight, Star, TrendingUp, Users, Clock, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 // TypeScript interface
@@ -373,13 +373,14 @@ const DEFAULT_COMPANY: CompanyData = {
   ]
 };
 
-export default function CompanyPage({ params }: { params: { slug: string } }) {
-  const company = ALL_COMPANIES[params.slug] || { 
+export default async function CompanyPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const company = ALL_COMPANIES[slug] || { 
     ...DEFAULT_COMPANY, 
-    name: params.slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) 
+    name: slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) 
   };
 
-  const otherCompanies = Object.keys(ALL_COMPANIES).filter(key => key !== params.slug).slice(0, 4);
+  const otherCompanies = Object.keys(ALL_COMPANIES).filter(key => key !== slug).slice(0, 4);
 
   return (
     <div className="min-h-screen bg-slate-50">
