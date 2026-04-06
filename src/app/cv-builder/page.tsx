@@ -69,11 +69,10 @@ export default function CVBuilder() {
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id)}
-                  className={`w-full flex items-center gap-3 px-6 py-4 text-left transition-colors ${
-                    activeSection === section.id 
-                      ? 'bg-blue-50 text-blue-600 border-l-4 border-blue-600' 
+                  className={`w-full flex items-center gap-3 px-6 py-4 text-left transition-colors ${activeSection === section.id
+                      ? 'bg-blue-50 text-blue-600 border-l-4 border-blue-600'
                       : 'text-slate-600 hover:bg-slate-50'
-                  }`}
+                    }`}
                 >
                   <section.icon size={20} />
                   <span className="font-semibold">{section.label}</span>
@@ -100,48 +99,48 @@ export default function CVBuilder() {
                 <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                   <User className="text-blue-600" /> Personal Information
                 </h2>
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">First Name</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="e.g. John"
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                       value={formData.firstName}
-                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Last Name</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="e.g. Doe"
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                       value={formData.lastName}
-                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Job Title</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="e.g. Software Developer"
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                       value={formData.jobTitle}
-                      onChange={(e) => setFormData({...formData, jobTitle: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3.5 text-slate-400" size={18} />
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         placeholder="john@email.com"
                         className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       />
                     </div>
                   </div>
@@ -149,12 +148,12 @@ export default function CVBuilder() {
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Phone</label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-3.5 text-slate-400" size={18} />
-                      <input 
-                        type="tel" 
+                      <input
+                        type="tel"
                         placeholder="+27 71 234 5678"
                         className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
                     </div>
                   </div>
@@ -162,12 +161,12 @@ export default function CVBuilder() {
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Location</label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-3.5 text-slate-400" size={18} />
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         placeholder="e.g. Johannesburg, GP"
                         className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         value={formData.location}
-                        onChange={(e) => setFormData({...formData, location: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                       />
                     </div>
                   </div>
@@ -175,12 +174,12 @@ export default function CVBuilder() {
 
                 <div className="mt-6">
                   <label className="block text-sm font-semibold text-slate-700 mb-2">Professional Summary</label>
-                  <textarea 
+                  <textarea
                     rows={4}
                     placeholder="Write a brief summary of your professional background..."
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none resize-none"
                     value={formData.summary}
-                    onChange={(e) => setFormData({...formData, summary: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
                   />
                 </div>
               </div>
@@ -192,7 +191,7 @@ export default function CVBuilder() {
                   <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                     <Briefcase className="text-blue-600" /> Work Experience
                   </h2>
-                  <button 
+                  <button
                     onClick={addExperience}
                     className="flex items-center gap-2 text-blue-600 font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors"
                   >
@@ -212,28 +211,28 @@ export default function CVBuilder() {
                         )}
                       </div>
                       <div className="grid md:grid-cols-2 gap-4">
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="Company Name"
                           className="px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         />
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="Job Title"
                           className="px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         />
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="Start Date (e.g. Jan 2020)"
                           className="px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         />
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="End Date (or 'Present')"
                           className="px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         />
                       </div>
-                      <textarea 
+                      <textarea
                         rows={3}
                         placeholder="Describe your responsibilities and achievements..."
                         className="w-full mt-4 px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none resize-none"
@@ -250,7 +249,7 @@ export default function CVBuilder() {
                   <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                     <GraduationCap className="text-blue-600" /> Education
                   </h2>
-                  <button 
+                  <button
                     onClick={addEducation}
                     className="flex items-center gap-2 text-blue-600 font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors"
                   >
@@ -270,18 +269,18 @@ export default function CVBuilder() {
                         )}
                       </div>
                       <div className="grid md:grid-cols-2 gap-4">
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="Institution"
                           className="px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         />
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="Degree/Certificate"
                           className="px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         />
-                        <input 
-                          type="text" 
+                        <input
+                          type="text"
                           placeholder="Year Completed"
                           className="px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         />
@@ -298,7 +297,7 @@ export default function CVBuilder() {
                   <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                     <Award className="text-blue-600" /> Skills
                   </h2>
-                  <button 
+                  <button
                     onClick={addSkill}
                     className="flex items-center gap-2 text-blue-600 font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors"
                   >
@@ -309,8 +308,8 @@ export default function CVBuilder() {
                 <div className="grid md:grid-cols-2 gap-4">
                   {skills.map((skill, index) => (
                     <div key={index} className="flex gap-2">
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         placeholder="e.g. Microsoft Excel"
                         className="flex-1 px-4 py-3 rounded-lg border border-slate-200 focus:border-blue-500 outline-none"
                         value={skill}
@@ -321,7 +320,7 @@ export default function CVBuilder() {
                         }}
                       />
                       {skills.length > 1 && (
-                        <button 
+                        <button
                           onClick={() => setSkills(skills.filter((_, i) => i !== index))}
                           className="text-red-500 hover:text-red-700 px-2"
                         >
