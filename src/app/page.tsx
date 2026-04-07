@@ -44,32 +44,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-xl">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Briefcase className="w-4 h-4 text-primary-foreground" />
-            </div>
-            JobHelper
-          </Link>
-          
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/find-jobs" className="text-sm font-medium hover:text-primary">Find Jobs</Link>
-            <Link href="/jse" className="text-sm font-medium hover:text-primary">JSE Companies</Link>
-            <Link href="/matric" className="text-sm font-medium hover:text-primary">Learnerships</Link>
-            <Link href="/remote" className="text-sm font-medium hover:text-primary">Remote</Link>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Link href="/sign-in" className="text-sm font-medium hover:text-primary hidden sm:inline-flex">Sign In</Link>
-            <Link href="/post-job" className="bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md hover:bg-primary/90">
-              Post a Job
-            </Link>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
