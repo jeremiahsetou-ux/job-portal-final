@@ -27,9 +27,7 @@ export default function RootLayout({
 
             <nav className="hidden md:flex items-center gap-6">
               <Link href="/find-jobs" className="text-sm font-medium hover:text-primary">Find Jobs</Link>
-              <Link href="/jse" className="text-sm font-medium hover:text-primary">JSE Companies</Link>
-              <Link href="/matric" className="text-sm font-medium hover:text-primary">Learnerships</Link>
-              <Link href="/remote" className="text-sm font-medium hover:text-primary">Remote</Link>
+              <Link href="/cv-builder" className="text-sm font-medium hover:text-primary">CV Builder</Link>
               <Link href="/z83-form" className="text-sm font-medium hover:text-primary">Z83 Form</Link>
             </nav>
 
