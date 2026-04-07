@@ -8,7 +8,7 @@ export default async function SitesLayout({
   params: Promise<{ siteId: string }>;
 }) {
   const { siteId } = await params;
-  
+
   return (
     <SiteProvider siteId={siteId}>
       {children}

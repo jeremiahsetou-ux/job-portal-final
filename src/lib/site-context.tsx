@@ -19,7 +19,7 @@ const SiteContext = createContext<SiteContextType | null>(null);
 
 export function SiteProvider({ children, siteId }: { children: ReactNode; siteId: string }) {
   const site = SITES.find(s => s.id === siteId) || SITES[0];
-  
+
   return (
     <SiteContext.Provider value={{ currentSite: site, sites: SITES }}>
       {children}
