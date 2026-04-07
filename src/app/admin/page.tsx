@@ -6,7 +6,7 @@ import { Building2, Users, FileText, Plus, Search, ChevronDown, LayoutDashboard,
 import Link from 'next/link';
 
 export default function AdminPage() {
-  const [selectedSite, setSelectedSite] = useState(SITES[0].id);
+  const [selectedSite, setSelectedSite] = useState<string>(SITES[0].id);
   const [activeTab, setActiveTab] = useState('jobs');
 
   return (
