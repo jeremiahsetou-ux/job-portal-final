@@ -1,98 +1,559 @@
-"use client";
+'use client';
 
-import React from 'react';
-import { FileText, Download, CheckCircle2, AlertCircle, ArrowLeft, ShieldCheck, UserCheck, GraduationCap, Briefcase } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronRight, ChevronLeft, Download, FileText, User, GraduationCap, Briefcase, CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export default function Z83Form() {
-  return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
-      {/* Top Navigation */}
-      <nav className="bg-white border-b h-20 sticky top-0 z-50 px-6 flex items-center justify-between shadow-sm">
-        <Link href="/" className="flex items-center gap-2 font-black text-blue-600 italic uppercase tracking-tighter hover:text-blue-800 transition-all text-xl">
-          <ArrowLeft size={20} /> JOBHELPER
-        </Link>
-        <div className="hidden md:flex items-center gap-2 text-[10px] font-black bg-slate-900 text-white px-4 py-2 rounded-full italic uppercase tracking-widest shadow-md">
-          <ShieldCheck size={14} className="text-blue-400" /> Official 2026 Guide
-        </div>
-      </nav>
+interface FormData {
+  referenceNumber: string;
+  positionTitle: string;
+  department: string;
+  surname: string;
+  firstNames: string;
+  dateOfBirth: string;
+  idNumber: string;
+  gender: string;
+  nationality: string;
+  physicalAddress: string;
+  city: string;
+  postalCode: string;
+  cellPhone: string;
+  email: string;
+  highestQualification: string;
+  institution: string;
+  yearCompleted: string;
+  employmentHistory: string;
+}
 
-      <main className="max-w-4xl mx-auto py-12 px-6">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter italic uppercase leading-none text-slate-900">
-            Z83 Form <span className="text-blue-600">Masterclass</span>
-          </h1>
-          <p className="text-lg text-slate-500 font-bold max-w-2xl mx-auto leading-relaxed italic">
-            Don't let a simple mistake cost you a government job. Follow our verified 2026 step-by-step guide.
+const initialData: FormData = {
+  referenceNumber: '',
+  positionTitle: '',
+  department: '',
+  surname: '',
+  firstNames: '',
+  dateOfBirth: '',
+  idNumber: '',
+  gender: '',
+  nationality: 'South African',
+  physicalAddress: '',
+  city: '',
+  postalCode: '',
+  cellPhone: '',
+  email: '',
+  highestQualification: '',
+  institution: '',
+  yearCompleted: '',
+  employmentHistory: '',
+};
+
+const steps = [
+  { id: 'position', title: 'Position Details', icon: FileText },
+  { id: 'personal', title: 'Personal Details', icon: User },
+  { id: 'education', title: 'Education', icon: GraduationCap },
+  { id: 'experience', title: 'Experience', icon: Briefcase },
+];
+
+export default function Z83FormPage() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState<FormData>(initialData);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const updateField = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const generatePDF = async () => {
+    setIsGenerating(true);
+    
+    try {
+      const jsPDFModule = await import('jspdf');
+      const jsPDF = jsPDFModule.default;
+      
+      const doc = new jsPDF();
+      
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Z83 APPLICATION FORM', 105, 20, { align: 'center' });
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Republic of South Africa - Government Employment', 105, 28, { align: 'center' });
+      
+      doc.setLineWidth(0.5);
+      doc.line(20, 32, 190, 32);
+      
+      let yPos = 45;
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Position Details', 20, yPos);
+      yPos += 10;
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Reference Number: ${formData.referenceNumber || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Position Title: ${formData.positionTitle || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Department: ${formData.department || 'N/A'}`, 20, yPos);
+      yPos += 15;
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Personal Details', 20, yPos);
+      yPos += 10;
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Surname: ${formData.surname || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`First Names: ${formData.firstNames || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Date of Birth: ${formData.dateOfBirth || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`ID Number: ${formData.idNumber || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Gender: ${formData.gender || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Nationality: ${formData.nationality || 'N/A'}`, 20, yPos);
+      yPos += 15;
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Contact Details', 20, yPos);
+      yPos += 10;
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Address: ${formData.physicalAddress || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`City: ${formData.city || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Postal Code: ${formData.postalCode || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Cell Phone: ${formData.cellPhone || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Email: ${formData.email || 'N/A'}`, 20, yPos);
+      yPos += 15;
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Education', 20, yPos);
+      yPos += 10;
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Qualification: ${formData.highestQualification || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Institution: ${formData.institution || 'N/A'}`, 20, yPos);
+      yPos += 7;
+      doc.text(`Year Completed: ${formData.yearCompleted || 'N/A'}`, 20, yPos);
+      yPos += 15;
+      
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Employment History', 20, yPos);
+      yPos += 10;
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      const lines = doc.splitTextToSize(formData.employmentHistory || 'N/A', 170);
+      lines.forEach((line: string) => {
+        doc.text(line, 20, yPos);
+        yPos += 7;
+      });
+      
+      yPos = Math.max(yPos + 20, 250);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Declaration', 20, yPos);
+      yPos += 10;
+      doc.setFont('helvetica', 'normal');
+      doc.text('I hereby declare that the information given above is true and correct.', 20, yPos);
+      yPos += 15;
+      doc.line(20, yPos, 100, yPos);
+      doc.text('Signature', 20, yPos + 7);
+      doc.line(120, yPos, 180, yPos);
+      doc.text('Date', 120, yPos + 7);
+      
+      doc.save('z83-form-generated.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('PDF generation failed. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const canProceed = () => {
+    switch (currentStep) {
+      case 0:
+        return formData.referenceNumber && formData.positionTitle;
+      case 1:
+        return formData.surname && formData.firstNames && formData.idNumber;
+      case 2:
+        return formData.highestQualification && formData.institution;
+      case 3:
+        return true;
+      default:
+        return true;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {/* Hero Header */}
+      <div className="bg-gradient-to-br from-green-700 via-green-600 to-emerald-500 text-white py-12">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="flex items-center gap-2 text-sm text-green-100 mb-4">
+            <Link href="/" className="hover:underline flex items-center gap-1">
+              <ArrowLeft size={14} /> Home
+            </Link>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold">Z83 AI Form Generator</h1>
+          <p className="text-green-100 mt-2 max-w-xl">
+            Complete the form below and generate a properly formatted PDF ready for government applications.
           </p>
         </div>
+      </div>
 
-        {/* Warning Box */}
-        <div className="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-2xl mb-12 flex items-start gap-4 shadow-sm">
-          <AlertCircle className="text-amber-500 shrink-0" size={24} />
-          <div>
-            <h4 className="font-black uppercase text-xs tracking-widest text-amber-800 mb-1">Crucial Notice</h4>
-            <p className="text-sm font-bold text-amber-700">Ensure you use the NEW Z83 form (effective from 1 January 2021). Old forms are still being rejected by many departments.</p>
-          </div>
-        </div>
-
-        {/* Guide Steps */}
-        <div className="space-y-6">
-          {[
-            { 
-              title: "1. Personal Information", 
-              icon: <UserCheck className="text-blue-600" />, 
-              desc: "Fill in your full name exactly as it appears on your ID. Double-check your ID number—one wrong digit leads to instant disqualification." 
-            },
-            { 
-              title: "2. Education & Training", 
-              icon: <GraduationCap className="text-blue-600" />, 
-              desc: "List your highest qualification first. Include the institution name and the year obtained. Do not leave gaps in your educational history." 
-            },
-            { 
-              title: "3. Professional Experience", 
-              icon: <Briefcase className="text-blue-600" />, 
-              desc: "Include all relevant work experience. For government roles, being specific about your responsibilities is key." 
-            },
-            { 
-              title: "4. The Declaration", 
-              icon: <CheckCircle2 className="text-blue-600" />, 
-              desc: "Sign and date the form. An unsigned Z83 is the #1 reason applications are ignored. Ensure the date matches the day you submit." 
-            }
-          ].map((step, idx) => (
-            <section key={idx} className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm flex gap-6 items-start hover:shadow-md transition-shadow">
-              <div className="bg-slate-50 p-4 rounded-2xl shrink-0">
-                {step.icon}
+      <div className="max-w-4xl mx-auto px-6 py-8">
+        {/* Progress Steps */}
+        <div className="flex items-center justify-between mb-8">
+          {steps.map((step, index) => (
+            <div
+              key={step.id}
+              className={`flex items-center ${index < steps.length - 1 ? 'flex-1' : ''}`}
+            >
+              <div
+                className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-colors ${
+                  index <= currentStep
+                    ? 'bg-green-600 border-green-600 text-white'
+                    : 'bg-white border-slate-300 text-slate-400'
+                }`}
+              >
+                <step.icon size={20} />
               </div>
-              <div>
-                <h2 className="text-xl font-black mb-2 uppercase italic tracking-tight">{step.title}</h2>
-                <p className="text-slate-500 font-bold text-sm leading-relaxed">{step.desc}</p>
-              </div>
-            </section>
+              {index < steps.length - 1 && (
+                <div
+                  className={`flex-1 h-1 mx-2 ${
+                    index < currentStep ? 'bg-green-600' : 'bg-slate-200'
+                  }`}
+                />
+              )}
+            </div>
           ))}
         </div>
 
-        {/* Download Action */}
-        <div className="text-center mt-16 bg-blue-600 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10 text-white">
-             <FileText size={100} />
-          </div>
-          <h3 className="text-2xl font-black text-white uppercase italic mb-6">Ready to apply?</h3>
-          <a 
-            href="/z83-form-2026.pdf" 
-            className="inline-flex items-center gap-3 bg-white text-blue-600 px-10 py-5 rounded-2xl font-black hover:bg-slate-100 transition-all shadow-xl uppercase tracking-widest text-sm"
-          >
-            <Download size={20} /> Download Official PDF
-          </a>
-          <p className="mt-6 text-blue-100 text-[10px] font-black uppercase tracking-[0.2em]">Verified South African Government Document</p>
-        </div>
-      </main>
+        {/* Form Cards */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          {currentStep === 0 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Position Details</h2>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Reference Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.referenceNumber}
+                  onChange={(e) => updateField('referenceNumber', e.target.value)}
+                  placeholder="e.g. DPSA/12345"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                />
+                <p className="text-xs text-slate-500 mt-1">Must match the vacancy circular exactly</p>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Position Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.positionTitle}
+                  onChange={(e) => updateField('positionTitle', e.target.value)}
+                  placeholder="e.g. Administrative Clerk"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Department</label>
+                <input
+                  type="text"
+                  value={formData.department}
+                  onChange={(e) => updateField('department', e.target.value)}
+                  placeholder="e.g. Department of Health"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                />
+              </div>
+            </div>
+          )}
 
-      {/* Footer Branding */}
-      <footer className="py-12 text-center opacity-30">
-        <p className="text-[10px] font-black uppercase tracking-[0.3em]">JobHelper.co.za • Authority Career Portal</p>
-      </footer>
+          {currentStep === 1 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Personal Details</h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">
+                    Surname <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.surname}
+                    onChange={(e) => updateField('surname', e.target.value)}
+                    placeholder="Your last name"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">
+                    First Names <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.firstNames}
+                    onChange={(e) => updateField('firstNames', e.target.value)}
+                    placeholder="Your full first names"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">
+                    Date of Birth
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={(e) => updateField('dateOfBirth', e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">
+                    ID Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.idNumber}
+                    onChange={(e) => updateField('idNumber', e.target.value)}
+                    placeholder="13 digit SA ID"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Gender</label>
+                  <select
+                    value={formData.gender}
+                    onChange={(e) => updateField('gender', e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  >
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Nationality</label>
+                  <select
+                    value={formData.nationality}
+                    onChange={(e) => updateField('nationality', e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  >
+                    <option value="South African">South African</option>
+                    <option value="Permanent Resident">Permanent Resident</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {currentStep === 2 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Education & Qualifications</h2>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Highest Qualification <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={formData.highestQualification}
+                  onChange={(e) => updateField('highestQualification', e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                >
+                  <option value="">Select qualification</option>
+                  <option value="Grade 10">Grade 10</option>
+                  <option value="Grade 11">Grade 11</option>
+                  <option value="Matric">Matric</option>
+                  <option value="Certificate">Certificate</option>
+                  <option value="Diploma">Diploma</option>
+                  <option value="Bachelor's Degree">Bachelor's Degree</option>
+                  <option value="Honours Degree">Honours Degree</option>
+                  <option value="Master's Degree">Master's Degree</option>
+                  <option value="Doctorate">Doctorate</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Institution <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.institution}
+                  onChange={(e) => updateField('institution', e.target.value)}
+                  placeholder="e.g. University of Pretoria"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Year Completed</label>
+                <input
+                  type="text"
+                  value={formData.yearCompleted}
+                  onChange={(e) => updateField('yearCompleted', e.target.value)}
+                  placeholder="e.g. 2020"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                />
+              </div>
+            </div>
+          )}
+
+          {currentStep === 3 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Contact & Experience</h2>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Physical Address</label>
+                <input
+                  type="text"
+                  value={formData.physicalAddress}
+                  onChange={(e) => updateField('physicalAddress', e.target.value)}
+                  placeholder="Full residential address"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                />
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">City/Town</label>
+                  <input
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) => updateField('city', e.target.value)}
+                    placeholder="e.g. Pretoria"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Postal Code</label>
+                  <input
+                    type="text"
+                    value={formData.postalCode}
+                    onChange={(e) => updateField('postalCode', e.target.value)}
+                    placeholder="e.g. 0001"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Cell Phone</label>
+                  <input
+                    type="text"
+                    value={formData.cellPhone}
+                    onChange={(e) => updateField('cellPhone', e.target.value)}
+                    placeholder="e.g. 071 234 5678"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => updateField('email', e.target.value)}
+                    placeholder="your@email.com"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Employment History</label>
+                <textarea
+                  value={formData.employmentHistory}
+                  onChange={(e) => updateField('employmentHistory', e.target.value)}
+                  placeholder="List previous employers, positions, and dates..."
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none resize-none"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Buttons */}
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-200">
+            <button
+              onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
+              disabled={currentStep === 0}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
+                currentStep === 0
+                  ? 'text-slate-300 cursor-not-allowed'
+                  : 'text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <ChevronLeft size={18} />
+              Back
+            </button>
+
+            {currentStep < steps.length - 1 ? (
+              <button
+                onClick={() => setCurrentStep(prev => Math.min(steps.length - 1, prev + 1))}
+                disabled={!canProceed()}
+                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  canProceed()
+                    ? 'bg-green-600 text-white hover:bg-green-700'
+                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                }`}
+              >
+                Next
+                <ChevronRight size={18} />
+              </button>
+            ) : (
+              <button
+                onClick={generatePDF}
+                disabled={isGenerating}
+                className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 transition-colors"
+              >
+                {isGenerating ? (
+                  <>Generating...</>
+                ) : (
+                  <>
+                    <Download size={18} />
+                    Generate PDF
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Tips */}
+        <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="text-yellow-600 shrink-0 mt-0.5" size={20} />
+            <div>
+              <h3 className="font-semibold text-yellow-900">Important Tips</h3>
+              <ul className="text-sm text-yellow-800 mt-2 space-y-1">
+                <li>• Use BLUE ink when signing the printed form</li>
+                <li>• Write in BLOCK CAPITAL letters</li>
+                <li>• Do not use correction fluid (Tipp-Ex)</li>
+                <li>• Attach certified copies of ID and qualifications</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

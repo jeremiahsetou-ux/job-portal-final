@@ -1,478 +1,422 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
-import { Search, FileText, ArrowRight, ShieldCheck, Zap, Star, MapPin, Building2, Briefcase, Bookmark, Clock, TrendingUp, Users, Download, GraduationCap } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, MapPin, Briefcase, Building2, ArrowRight, ChevronRight, Star, Clock, Filter, Bell, FileText, Download, GraduationCap, Users, Zap, ExternalLink, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
-// All available jobs database for search
-const ALL_JOBS = [
-  { id: 1, title: 'Senior Software Developer', company: 'Standard Bank', location: 'Johannesburg', salary: 'R850k - R1.2m', type: 'Permanent', posted: '2 days ago', logo: 'SB', category: 'IT' },
-  { id: 2, title: 'Marketing Manager', company: 'Sasol', location: 'Sandton', salary: 'R600k - R850k', type: 'Permanent', posted: '1 day ago', logo: 'SS', category: 'Marketing' },
-  { id: 3, title: 'Government Clerk', company: 'Dept of Home Affairs', location: 'Pretoria', salary: 'R180k - R280k', type: 'Government', posted: '5 hours ago', logo: 'GOV', category: 'Admin' },
-  { id: 4, title: 'Sales Consultant', company: 'Vodacom', location: 'Cape Town', salary: 'R15k - R25k + Comm', type: 'Permanent', posted: '3 days ago', logo: 'VD', category: 'Sales' },
-  { id: 5, title: 'Process Engineer', company: 'Sasol', location: 'Secunda', salary: 'R650k - R850k', type: 'Permanent', posted: '2 days ago', logo: 'SS', category: 'Engineering' },
-  { id: 6, title: 'Personal Banker', company: 'Absa', location: 'Johannesburg', salary: 'R220k - R320k', type: 'Permanent', posted: '1 week ago', logo: 'AB', category: 'Banking' },
-  { id: 7, title: 'Store Manager', company: 'Shoprite', location: 'Durban', salary: 'R280k - R380k', type: 'Permanent', posted: '3 days ago', logo: 'SR', category: 'Retail' },
-  { id: 8, title: 'Electrical Engineer', company: 'Eskom', location: 'Pretoria', salary: 'R600k - R850k', type: 'Permanent', posted: '5 days ago', logo: 'ES', category: 'Engineering' },
-  { id: 9, title: 'Train Driver', company: 'Transnet', location: 'Johannesburg', salary: 'R250k - R350k', type: 'Permanent', posted: '3 days ago', logo: 'TR', category: 'Transport' },
-  { id: 10, title: 'Network Engineer', company: 'MTN', location: 'Johannesburg', salary: 'R550k - R750k', type: 'Permanent', posted: '2 days ago', logo: 'MTN', category: 'IT' },
-  { id: 11, title: 'Brand Manager', company: 'Unilever', location: 'Durban', salary: 'R550k - R750k', type: 'Permanent', posted: '3 days ago', logo: 'UL', category: 'Marketing' },
-  { id: 12, title: 'Mining Engineer', company: 'Anglo American', location: 'Rustenburg', salary: 'R700k - R950k', type: 'Permanent', posted: '1 day ago', logo: 'AA', category: 'Mining' },
+const FEATURED_JOBS = [
+  { id: 1, title: 'Software Developer', company: 'Standard Bank', location: 'Johannesburg', salary: 'R850k - R1.2m', type: 'Permanent', posted: '2d ago', badge: 'Hot' },
+  { id: 2, title: 'Marketing Manager', company: 'Sasol', location: 'Sandton', salary: 'R600k - R850k', type: 'Permanent', posted: '1d ago', badge: null },
+  { id: 3, title: 'Government Clerk', company: 'Dept of Home Affairs', location: 'Pretoria', salary: 'R180k - R280k', type: 'Government', posted: '5h ago', badge: 'Urgent' },
+  { id: 4, title: 'Sales Consultant', company: 'Vodacom', location: 'Cape Town', salary: 'R15k - R25k + Comm', type: 'Permanent', posted: '3d ago', badge: null },
 ];
 
-const CITIES = ['Johannesburg', 'Cape Town', 'Durban', 'Pretoria', 'Port Elizabeth', 'Bloemfontein'];
-
-const TOP_EMPLOYERS = [
-  { name: 'Standard Bank', slug: 'standard-bank', jobs: 245, color: 'bg-blue-600' },
-  { name: 'Sasol', slug: 'sasol', jobs: 189, color: 'bg-green-600' },
-  { name: 'Shoprite', slug: 'shoprite', jobs: 156, color: 'bg-red-600' },
-  { name: 'Eskom', slug: 'eskom', jobs: 134, color: 'bg-yellow-500' },
-  { name: 'MTN', slug: 'mtn', jobs: 98, color: 'bg-yellow-400' },
-  { name: 'Absa', slug: 'absa', jobs: 87, color: 'bg-red-500' },
+const POPULAR_CATEGORIES = [
+  { name: 'IT & Tech', jobs: 1245, icon: '💻' },
+  { name: 'Government', jobs: 892, icon: '🏛️' },
+  { name: 'Banking', jobs: 654, icon: '🏦' },
+  { name: 'Retail', jobs: 543, icon: '🛒' },
+  { name: 'Engineering', jobs: 432, icon: '⚙️' },
+  { name: 'Healthcare', jobs: 321, icon: '🏥' },
 ];
 
-function useScrollAnimation(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+const TOP_COMPANIES = [
+  { name: 'Standard Bank', jobs: 245, color: 'bg-blue-600' },
+  { name: 'Sasol', jobs: 189, color: 'bg-green-600' },
+  { name: 'Shoprite', jobs: 156, color: 'bg-red-600' },
+  { name: 'MTN', jobs: 98, color: 'bg-yellow-500' },
+  { name: 'Absa', jobs: 87, color: 'bg-red-500' },
+  { name: 'Eskom', jobs: 76, color: 'bg-yellow-600' },
+];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { ref, isVisible };
-}
-
-function AnimatedCounter({ end, suffix = '' }: { end: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const { ref, isVisible } = useScrollAnimation();
-
-  useEffect(() => {
-    if (!isVisible) return;
-    let startTime: number;
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / 2000, 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [isVisible, end]);
-
-  return <span ref={ref} className="tabular-nums">{count.toLocaleString()}{suffix}</span>;
-}
+const CITIES = [
+  { name: 'Johannesburg', jobs: 2450 },
+  { name: 'Cape Town', jobs: 1832 },
+  { name: 'Durban', jobs: 1245 },
+  { name: 'Pretoria', jobs: 987 },
+  { name: 'Port Elizabeth', jobs: 543 },
+  { name: 'Bloemfontein', jobs: 321 },
+];
 
 export default function HomePage() {
-  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [location, setLocation] = useState('');
-  const [filteredJobs, setFilteredJobs] = useState(ALL_JOBS);
-  const [showResults, setShowResults] = useState(false);
-  const [savedJobs, setSavedJobs] = useState<number[]>([]);
-
-  const handleSearch = () => {
-    const filtered = ALL_JOBS.filter(job => {
-      const matchesQuery = !searchQuery || 
-        job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.category.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesLocation = !location || 
-        job.location.toLowerCase().includes(location.toLowerCase());
-      
-      return matchesQuery && matchesLocation;
-    });
-    
-    setFilteredJobs(filtered);
-    setShowResults(true);
-    
-    setTimeout(() => {
-      document.getElementById('search-results')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') handleSearch();
-  };
-
-  const toggleSaveJob = (jobId: number) => {
-    setSavedJobs(prev => 
-      prev.includes(jobId) 
-        ? prev.filter(id => id !== jobId)
-        : [...prev, jobId]
-    );
-  };
-
-  const clearSearch = () => {
-    setSearchQuery('');
-    setLocation('');
-    setFilteredJobs(ALL_JOBS);
-    setShowResults(false);
-  };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
-      {/* Hero Section */}
-      <header className="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" />
-        </div>
-
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-          <div className="flex justify-center mb-4 sm:mb-6">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border border-white/30">
-              <ShieldCheck size={14} className="text-yellow-300" />
-              <span>South Africa&apos;s #1 Job Portal</span>
+    <div className="min-h-screen bg-background">
+      {/* Navbar */}
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 font-semibold text-xl">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Briefcase className="w-4 h-4 text-primary-foreground" />
             </div>
+            JobHelper
+          </Link>
+          
+          <nav className="hidden md:flex items-center gap-6">
+            <Link href="/find-jobs" className="text-sm font-medium hover:text-primary">Find Jobs</Link>
+            <Link href="/jse" className="text-sm font-medium hover:text-primary">JSE Companies</Link>
+            <Link href="/matric" className="text-sm font-medium hover:text-primary">Learnerships</Link>
+            <Link href="/remote" className="text-sm font-medium hover:text-primary">Remote</Link>
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <Link href="/sign-in" className="text-sm font-medium hover:text-primary hidden sm:inline-flex">Sign In</Link>
+            <Link href="/post-job" className="bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md hover:bg-primary/90">
+              Post a Job
+            </Link>
           </div>
+        </div>
+      </header>
 
-          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-center mb-4 sm:mb-6 leading-tight px-2">
-            Find Your <span className="text-yellow-300">Dream Job</span> Today
-          </h1>
-          <p className="text-center text-blue-100 text-sm sm:text-lg md:text-xl max-w-2xl mx-auto mb-6 sm:mb-10 px-4">
-            Search thousands of jobs across South Africa. Build your CV and apply with confidence.
-          </p>
+      {/* Hero Section */}
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
+        <div className="container mx-auto px-4 relative">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+              <Zap className="w-4 h-4" />
+              <span>#1 Job Portal in South Africa</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+              Find Your <span className="text-primary">Dream Job</span> Today
+            </h1>
+            
+            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+              Search thousands of jobs across South Africa. Build your CV and apply with confidence.
+            </p>
 
-          {/* Search Box */}
-          <div className="max-w-4xl mx-auto px-2 sm:px-0">
-            <div className="bg-white rounded-xl shadow-2xl p-2 sm:p-3 flex flex-col md:flex-row gap-2">
-              <div className="flex-1 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 border-b md:border-b-0 md:border-r border-slate-200">
-                <Search className="text-slate-400 flex-shrink-0" size={18} />
+            {/* Search Box */}
+            <div className="bg-card rounded-xl shadow-lg p-2 flex flex-col md:flex-row gap-2 max-w-2xl mx-auto">
+              <div className="flex-1 flex items-center gap-3 px-4 border rounded-lg">
+                <Search className="w-5 h-5 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Job title, keywords or company"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="flex-1 outline-none text-slate-700 placeholder:text-slate-400 font-medium text-sm sm:text-base min-w-0"
+                  className="flex-1 bg-transparent outline-none text-sm"
                 />
               </div>
-              <div className="flex-1 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3">
-                <MapPin className="text-slate-400 flex-shrink-0" size={18} />
+              <div className="flex-1 flex items-center gap-3 px-4 border rounded-lg">
+                <MapPin className="w-5 h-5 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="City or Province"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="flex-1 outline-none text-slate-700 placeholder:text-slate-400 font-medium text-sm sm:text-base min-w-0"
+                  className="flex-1 bg-transparent outline-none text-sm"
                 />
               </div>
-              <button 
-                onClick={handleSearch}
-                className="bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold px-6 sm:px-10 py-3 sm:py-4 rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg text-sm sm:text-base"
+              <Link 
+                href={`/find-jobs?q=${encodeURIComponent(searchQuery)}&l=${encodeURIComponent(location)}`}
+                className="bg-primary text-primary-foreground font-medium px-8 py-3 rounded-lg hover:bg-primary/90 flex items-center justify-center gap-2"
               >
                 Search Jobs
-              </button>
+              </Link>
             </div>
-            
-            {/* Quick Filters */}
-            <div className="flex flex-wrap justify-center gap-2 mt-3 sm:mt-4">
-              {['Remote', 'Entry Level', 'Graduate', 'Government'].map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => { setSearchQuery(filter); handleSearch(); }}
-                  className="bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm px-3 py-1.5 rounded-full transition-colors"
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
-          </div>
 
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-6 sm:mt-10 text-xs sm:text-sm px-4">
-            <div className="flex items-center gap-2">
-              <Briefcase size={16} className="text-yellow-300" />
-              <span className="font-semibold">12,450 Jobs</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Building2 size={16} className="text-yellow-300" />
-              <span className="font-semibold">850+ Companies</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users size={16} className="text-yellow-300" />
-              <span className="font-semibold">Daily Updates</span>
+            {/* Quick Links */}
+            <div className="flex flex-wrap justify-center gap-2 mt-6">
+              <Link href="/find-jobs?type=Remote" className="text-sm text-muted-foreground hover:text-primary">Remote Jobs</Link>
+              <span className="text-muted-foreground">•</span>
+              <Link href="/matric" className="text-sm text-muted-foreground hover:text-primary">Matric Jobs</Link>
+              <span className="text-muted-foreground">•</span>
+              <Link href="/jse" className="text-sm text-muted-foreground hover:text-primary">JSE Careers</Link>
+              <span className="text-muted-foreground">•</span>
+              <Link href="/z83-form" className="text-sm text-muted-foreground hover:text-primary">Z83 Form</Link>
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16 space-y-12 sm:space-y-20">
-
-        {/* Search Results Section */}
-        {showResults && (
-          <section id="search-results" className="animate-fadeIn">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
+      {/* Stats Bar */}
+      <section className="border-y bg-card/50">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Briefcase className="w-5 h-5 text-primary" />
+              </div>
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  Search Results {filteredJobs.length > 0 && `(${filteredJobs.length} jobs found)`}
-                </h2>
-                {(searchQuery || location) && (
-                  <p className="text-slate-500 text-sm mt-1">
-                    {searchQuery && `for "${searchQuery}"`} {location && `in ${location}`}
-                  </p>
-                )}
+                <p className="text-2xl font-bold">12,450</p>
+                <p className="text-sm text-muted-foreground">Active Jobs</p>
               </div>
-              <button 
-                onClick={clearSearch}
-                className="text-blue-600 font-semibold hover:underline text-sm self-start"
-              >
-                Clear Search
-              </button>
             </div>
-
-            {filteredJobs.length > 0 ? (
-              <div className="grid md:grid-cols-2 gap-3 sm:gap-4">
-                {filteredJobs.slice(0, 6).map((job) => (
-                  <div key={job.id} className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-blue-300 transition-all group">
-                    <div className="flex justify-between items-start">
-                      <div className="flex gap-3">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500 font-bold text-xs sm:text-sm flex-shrink-0">
-                          {job.logo}
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-sm sm:text-base truncate">{job.title}</h3>
-                          <p className="text-slate-500 text-xs sm:text-sm">{job.company}</p>
-                          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1.5 text-xs text-slate-400">
-                            <span className="flex items-center gap-1"><MapPin size={12} /> {job.location}</span>
-                            <span className="flex items-center gap-1"><Clock size={12} /> {job.posted}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <button 
-                        onClick={() => toggleSaveJob(job.id)}
-                        className={`transition-colors flex-shrink-0 ${savedJobs.includes(job.id) ? 'text-blue-600' : 'text-slate-300 hover:text-blue-600'}`}
-                      >
-                        <Bookmark size={18} fill={savedJobs.includes(job.id) ? 'currentColor' : 'none'} />
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between mt-3 sm:mt-4 pt-3 border-t border-slate-100">
-                      <span className="text-slate-600 font-semibold text-xs sm:text-sm">{job.salary}</span>
-                      <span className={`text-xs font-semibold px-2 sm:px-3 py-1 rounded-full ${job.type === 'Government' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
-                        {job.type}
-                      </span>
-                    </div>
-                    <button className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm">
-                      View Job Details
-                    </button>
-                  </div>
-                ))}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Building2 className="w-5 h-5 text-primary" />
               </div>
-            ) : (
-              <div className="text-center py-12 bg-white rounded-xl border border-slate-200">
-                <Briefcase size={48} className="mx-auto text-slate-300 mb-4" />
-                <h3 className="text-lg font-bold text-slate-900 mb-2">No jobs found</h3>
-                <p className="text-slate-500 mb-4">Try different keywords or browse all jobs</p>
-                <button 
-                  onClick={clearSearch}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
-                >
-                  Browse All Jobs
-                </button>
+              <div>
+                <p className="text-2xl font-bold">850+</p>
+                <p className="text-sm text-muted-foreground">Companies</p>
               </div>
-            )}
-          </section>
-        )}
-
-        {/* Browse by Location */}
-        <section>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Popular Locations</h2>
-            <Link href="/find-jobs" className="text-blue-600 font-semibold hover:underline flex items-center gap-1 text-sm">
-              View all locations <ArrowRight size={14} />
-            </Link>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Users className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">50K+</p>
+                <p className="text-sm text-muted-foreground">Monthly Visitors</p>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {CITIES.map((city, idx) => (
-              <Link
-                key={city}
-                href={`/jobs/${city.toLowerCase().replace(' ', '-')}`}
-                className="bg-white p-4 sm:p-5 rounded-xl shadow-sm hover:shadow-lg border border-slate-200 hover:border-blue-300 transition-all text-center group"
-              >
-                <MapPin className="mx-auto mb-2 text-slate-400 group-hover:text-blue-600 transition-colors" size={20} />
-                <span className="font-semibold text-slate-700 group-hover:text-blue-600 transition-colors text-sm sm:text-base block truncate">{city}</span>
-                <p className="text-xs text-slate-400 mt-1">{800 + idx * 150}+ jobs</p>
-              </Link>
-            ))}
-          </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Featured Jobs */}
-        <section>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-8">
+      {/* Categories */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Featured Jobs</h2>
-              <p className="text-slate-500 mt-1 text-sm">Hand-picked opportunities for you</p>
+              <h2 className="text-2xl font-bold">Popular Categories</h2>
+              <p className="text-muted-foreground">Browse jobs by industry</p>
             </div>
-            <Link href="/find-jobs" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-colors text-sm self-start">
-              Browse All Jobs
-            </Link>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
-            {ALL_JOBS.slice(0, 4).map((job) => (
-              <div key={job.id} className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-slate-200 hover:shadow-lg hover:border-blue-300 transition-all group">
-                <div className="flex justify-between items-start">
-                  <div className="flex gap-3">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-slate-100 rounded-lg flex items-center justify-center text-slate-500 font-bold text-xs sm:text-sm flex-shrink-0">
-                      {job.logo}
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-sm sm:text-base truncate">{job.title}</h3>
-                      <p className="text-slate-500 text-xs sm:text-sm">{job.company}</p>
-                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1.5 text-xs text-slate-400">
-                        <span className="flex items-center gap-1"><MapPin size={12} /> {job.location}</span>
-                        <span className="flex items-center gap-1"><Clock size={12} /> {job.posted}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => toggleSaveJob(job.id)}
-                    className={`transition-colors flex-shrink-0 ${savedJobs.includes(job.id) ? 'text-blue-600' : 'text-slate-300 hover:text-blue-600'}`}
-                  >
-                    <Bookmark size={18} fill={savedJobs.includes(job.id) ? 'currentColor' : 'none'} />
-                  </button>
-                </div>
-                <div className="flex items-center justify-between mt-3 sm:mt-4 pt-3 border-t border-slate-100">
-                  <span className="text-slate-600 font-semibold text-xs sm:text-sm">{job.salary}</span>
-                  <span className={`text-xs font-semibold px-2 sm:px-3 py-1 rounded-full ${job.type === 'Government' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
-                    {job.type}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Career Tools */}
-        <section className="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 shadow-sm border border-slate-200">
-          <div className="text-center mb-8 sm:mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2 sm:mb-3">Career Tools</h2>
-            <p className="text-slate-500 max-w-xl mx-auto text-sm sm:text-base px-4">Everything you need to land your dream job in South Africa</p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            <Link href="/cv-builder" className="group text-center p-5 sm:p-6 rounded-xl hover:bg-blue-50 transition-all border border-transparent hover:border-blue-100">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-blue-600 transition-all">
-                <FileText className="text-blue-600 group-hover:text-white" size={28} />
-              </div>
-              <h3 className="font-bold text-lg sm:text-xl text-slate-900 mb-1 sm:mb-2">CV Builder</h3>
-              <p className="text-slate-500 mb-3 sm:mb-4 text-sm">Create a professional South African CV in minutes</p>
-              <span className="text-blue-600 font-semibold group-hover:underline text-sm">Create CV →</span>
-            </Link>
-
-            <Link href="/z83-helper" className="group text-center p-5 sm:p-6 rounded-xl hover:bg-green-50 transition-all border border-transparent hover:border-green-100">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-green-600 transition-all">
-                <Download className="text-green-600 group-hover:text-white" size={28} />
-              </div>
-              <h3 className="font-bold text-lg sm:text-xl text-slate-900 mb-1 sm:mb-2">Z83 Form</h3>
-              <p className="text-slate-500 mb-3 sm:mb-4 text-sm">Download official government job application forms</p>
-              <span className="text-green-600 font-semibold group-hover:underline text-sm">Download →</span>
-            </Link>
-
-            <Link href="/career-advice" className="group text-center p-5 sm:p-6 rounded-xl hover:bg-purple-50 transition-all border border-transparent hover:border-purple-100 sm:col-span-2 lg:col-span-1">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:bg-purple-600 transition-all">
-                <GraduationCap className="text-purple-600 group-hover:text-white" size={28} />
-              </div>
-              <h3 className="font-bold text-lg sm:text-xl text-slate-900 mb-1 sm:mb-2">Career Advice</h3>
-              <p className="text-slate-500 mb-3 sm:mb-4 text-sm">Interview tips, salary guides and career growth</p>
-              <span className="text-purple-600 font-semibold group-hover:underline text-sm">Learn More →</span>
-            </Link>
-          </div>
-        </section>
-
-        {/* Top Employers */}
-        <section>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-8">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Top Employers</h2>
-              <p className="text-slate-500 mt-1 text-sm">Leading companies hiring now</p>
-            </div>
-            <Link href="/company" className="text-blue-600 font-semibold hover:underline flex items-center gap-1 text-sm self-start">
-              View all companies <ArrowRight size={14} />
+            <Link href="/find-jobs" className="text-sm font-medium text-primary hover:underline flex items-center gap-1">
+              View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {TOP_EMPLOYERS.map((employer) => (
-              <Link
-                key={employer.slug}
-                href={`/company/${employer.slug}`}
-                className="bg-white p-4 sm:p-5 rounded-xl shadow-sm hover:shadow-lg border border-slate-200 hover:border-blue-300 transition-all text-center group"
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {POPULAR_CATEGORIES.map((cat, idx) => (
+              <Link 
+                key={idx}
+                href={`/find-jobs?category=${encodeURIComponent(cat.name)}`}
+                className="bg-card border rounded-xl p-5 hover:border-primary hover:shadow-md transition-all text-center group"
               >
-                <div className={`w-12 h-12 sm:w-14 sm:h-14 ${employer.color} rounded-xl flex items-center justify-center text-white font-bold text-sm mx-auto mb-2 group-hover:scale-110 transition-transform`}>
-                  {employer.name.substring(0, 2).toUpperCase()}
-                </div>
-                <span className="font-semibold text-slate-700 group-hover:text-blue-600 transition-colors text-xs sm:text-sm block truncate">{employer.name}</span>
-                <p className="text-xs text-slate-400 mt-1">{employer.jobs} jobs</p>
+                <div className="text-3xl mb-3">{cat.icon}</div>
+                <h3 className="font-semibold text-sm">{cat.name}</h3>
+                <p className="text-xs text-muted-foreground mt-1">{cat.jobs} jobs</p>
               </Link>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Stats Section */}
-        <section className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 sm:p-8 lg:p-12 text-white">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center">
+      {/* Featured Jobs */}
+      <section className="py-16 md:py-24 bg-card/50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
             <div>
-              <p className="text-3xl sm:text-4xl lg:text-5xl font-black mb-1 sm:mb-2">
-                <AnimatedCounter end={12450} />
-              </p>
-              <p className="text-blue-100 text-sm sm:text-base">Active Jobs</p>
+              <h2 className="text-2xl font-bold">Featured Jobs</h2>
+              <p className="text-muted-foreground">Hand-picked opportunities for you</p>
             </div>
+            <Link href="/find-jobs" className="text-sm font-medium text-primary hover:underline flex items-center gap-1">
+              View all jobs <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {FEATURED_JOBS.map((job) => (
+              <Link 
+                key={job.id}
+                href={`/jobs/${job.id}`}
+                className="bg-card border rounded-xl p-5 hover:border-primary hover:shadow-md transition-all group"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center text-muted-foreground font-bold text-sm">
+                    {job.company.substring(0, 2).toUpperCase()}
+                  </div>
+                  {job.badge && (
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                      job.badge === 'Hot' ? 'bg-orange-100 text-orange-700' :
+                      job.badge === 'Urgent' ? 'bg-red-100 text-red-700' :
+                      'bg-primary/10 text-primary'
+                    }`}>
+                      {job.badge}
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">{job.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{job.company}</p>
+                <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
+                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {job.location}</span>
+                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {job.posted}</span>
+                </div>
+                <div className="flex items-center justify-between pt-3 border-t">
+                  <span className="font-semibold text-sm">{job.salary}</span>
+                  <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tools Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold">Career Tools</h2>
+            <p className="text-muted-foreground">Everything you need to land your dream job</p>
+          </div>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <Link href="/cv-builder" className="bg-card border rounded-xl p-6 hover:border-primary hover:shadow-md transition-all group">
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <FileText className="w-6 h-6" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">CV Builder</h3>
+              <p className="text-sm text-muted-foreground mb-4">Create a professional South African CV in minutes</p>
+              <span className="text-sm font-medium text-primary flex items-center gap-1">
+                Get started <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+            
+            <Link href="/z83-form" className="bg-card border rounded-xl p-6 hover:border-primary hover:shadow-md transition-all group">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                <Download className="w-6 h-6" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Z83 Form Generator</h3>
+              <p className="text-sm text-muted-foreground mb-4">Complete and download the official government form</p>
+              <span className="text-sm font-medium text-primary flex items-center gap-1">
+                Get started <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+            
+            <Link href="/career-advice" className="bg-card border rounded-xl p-6 hover:border-primary hover:shadow-md transition-all group">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                <GraduationCap className="w-6 h-6" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Career Advice</h3>
+              <p className="text-sm text-muted-foreground mb-4">Interview tips, salary guides and career growth</p>
+              <span className="text-sm font-medium text-primary flex items-center gap-1">
+                Learn more <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Top Companies */}
+      <section className="py-16 md:py-24 bg-card/50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
             <div>
-              <p className="text-3xl sm:text-4xl lg:text-5xl font-black mb-1 sm:mb-2">
-                <AnimatedCounter end={850} suffix="+" />
-              </p>
-              <p className="text-blue-100 text-sm sm:text-base">Companies</p>
+              <h2 className="text-2xl font-bold">Top Hiring Companies</h2>
+              <p className="text-muted-foreground">Leading companies hiring now</p>
             </div>
+            <Link href="/company" className="text-sm font-medium text-primary hover:underline flex items-center gap-1">
+              View all <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {TOP_COMPANIES.map((company, idx) => (
+              <Link 
+                key={idx}
+                href={`/company/${company.name.toLowerCase().replace(' ', '-')}`}
+                className="bg-card border rounded-xl p-5 hover:border-primary hover:shadow-md transition-all text-center group"
+              >
+                <div className={`w-12 h-12 ${company.color} rounded-xl flex items-center justify-center text-white font-bold text-sm mx-auto mb-3 group-hover:scale-110 transition-transform`}>
+                  {company.name.substring(0, 2).toUpperCase()}
+                </div>
+                <h3 className="font-semibold text-sm">{company.name}</h3>
+                <p className="text-xs text-muted-foreground">{company.jobs} jobs</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Browse by City */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
             <div>
-              <p className="text-3xl sm:text-4xl lg:text-5xl font-black mb-1 sm:mb-2">
-                <AnimatedCounter end={6} />
-              </p>
-              <p className="text-blue-100 text-sm sm:text-base">Major Cities</p>
-            </div>
-            <div>
-              <p className="text-3xl sm:text-4xl lg:text-5xl font-black mb-1 sm:mb-2">
-                <AnimatedCounter end={50} suffix="K+" />
-              </p>
-              <p className="text-blue-100 text-sm sm:text-base">Monthly Visitors</p>
+              <h2 className="text-2xl font-bold">Browse by City</h2>
+              <p className="text-muted-foreground">Find jobs in your area</p>
             </div>
           </div>
-        </section>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {CITIES.map((city, idx) => (
+              <Link 
+                key={idx}
+                href={`/jobs/${city.name.toLowerCase().replace(' ', '-')}`}
+                className="bg-card border rounded-xl p-4 hover:border-primary hover:shadow-md transition-all text-center group"
+              >
+                <MapPin className="w-5 h-5 text-muted-foreground mx-auto mb-2 group-hover:text-primary transition-colors" />
+                <h3 className="font-semibold text-sm">{city.name}</h3>
+                <p className="text-xs text-muted-foreground">{city.jobs} jobs</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* CTA Section */}
-        <section className="bg-yellow-50 rounded-2xl p-6 sm:p-8 lg:p-12 text-center border-2 border-yellow-200">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 sm:mb-4">
-            Ready to Find Your Dream Job?
-          </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto mb-6 sm:mb-8 text-sm sm:text-base px-4">
-            Join thousands of South Africans who found their perfect career match through JobHelper. 
+      {/* CTA */}
+      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Find Your Dream Job?</h2>
+          <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8">
+            Join thousands of South Africans who found their perfect career match through JobHelper.
             Create your profile today and get discovered by top employers.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/find-jobs"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors text-sm sm:text-base"
+              className="bg-white text-primary font-semibold px-8 py-3 rounded-md hover:bg-white/90 transition-colors"
             >
               Search Jobs
             </Link>
             <Link 
               href="/cv-builder"
-              className="bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-colors text-sm sm:text-base"
+              className="bg-primary-foreground text-primary font-semibold px-8 py-3 rounded-md hover:bg-primary-foreground/90 transition-colors"
             >
               Build Your CV
             </Link>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t py-12 bg-card/50">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h4 className="font-semibold mb-4">For Job Seekers</h4>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <Link href="/find-jobs" className="block hover:text-primary">Find Jobs</Link>
+                <Link href="/cv-builder" className="block hover:text-primary">CV Builder</Link>
+                <Link href="/z83-form" className="block hover:text-primary">Z83 Form</Link>
+                <Link href="/career-advice" className="block hover:text-primary">Career Advice</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Popular Searches</h4>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <Link href="/jse" className="block hover:text-primary">JSE Companies</Link>
+                <Link href="/matric" className="block hover:text-primary">Matric Jobs</Link>
+                <Link href="/remote" className="block hover:text-primary">Remote Jobs</Link>
+                <Link href="/find-jobs?type=Government" className="block hover:text-primary">Government Jobs</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Companies</h4>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <Link href="/post-job" className="block hover:text-primary">Post a Job</Link>
+                <Link href="/company" className="block hover:text-primary">Browse Companies</Link>
+                <Link href="/pricing" className="block hover:text-primary">Pricing</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">JobHelper</h4>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <Link href="/about" className="block hover:text-primary">About Us</Link>
+                <Link href="/contact" className="block hover:text-primary">Contact</Link>
+                <Link href="/privacy" className="block hover:text-primary">Privacy Policy</Link>
+              </div>
+            </div>
+          </div>
+          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+            © 2026 JobHelper.co.za. All rights reserved.
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
