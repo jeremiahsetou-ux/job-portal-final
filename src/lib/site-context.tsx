@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, ReactNode } from 'react';
-import { SITES, type SiteId } from '@/middleware';
+import { SITES, type SiteId } from '@/proxy';
 
 export interface Site {
   id: SiteId;

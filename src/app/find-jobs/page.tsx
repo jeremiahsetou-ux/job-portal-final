@@ -1,18 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, MapPin, Filter, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { JobCard } from '@/components/ui/job-card';
 
-const mockJobs = [
-  { id: '1', title: 'Software Developer', company: 'Standard Bank', location: 'Johannesburg', salary: 'R850k - R1.2m', type: 'Permanent', posted: '2 days ago' },
-  { id: '2', title: 'Marketing Manager', company: 'Sasol', location: 'Sandton', salary: 'R600k - R850k', type: 'Permanent', posted: '1 day ago' },
-  { id: '3', title: 'Government Clerk', company: 'Dept of Home Affairs', location: 'Pretoria', salary: 'R180k - R280k', type: 'Government', posted: '5 hours ago', isRemote: false },
-  { id: '4', title: 'Data Analyst', company: 'Finance Ltd', location: 'Cape Town', salary: 'R500k - R700k', type: 'Permanent', posted: '3 days ago' },
-  { id: '5', title: 'Sales Consultant', company: 'Vodacom', location: 'Remote', salary: 'R15k - R25k + Comm', type: 'Remote', posted: '1 day ago', isRemote: true },
-  { id: '6', title: 'HR Manager', company: 'MTN', location: 'Johannesburg', salary: 'R600k - R800k', type: 'Permanent', posted: '2 days ago' },
-];
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  salary?: string;
+  category?: string;
+  createdAt: string;
+}
 
 const categories = ['All', 'IT', 'Government', 'Banking', 'Retail', 'Engineering', 'Healthcare'];
 const locations = ['All', 'Johannesburg', 'Cape Town', 'Durban', 'Pretoria', 'Remote'];
@@ -21,13 +22,29 @@ export default function FindJobsPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
   const [location, setLocation] = useState('All');
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredJobs = mockJobs.filter(job => {
-    const matchesSearch = !search || job.title.toLowerCase().includes(search.toLowerCase()) || job.company.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = category === 'All' || job.type === category;
-    const matchesLocation = location === 'All' || job.location.includes(location) || (location === 'Remote' && job.isRemote);
-    return matchesSearch && matchesCategory && matchesLocation;
-  });
+  useEffect(() => {
+    async function fetchJobs() {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams();
+        if (search) params.set('q', search);
+        if (location && location !== 'All') params.set('l', location);
+        if (category && category !== 'All') params.set('category', category);
+
+        const res = await fetch(`/api/jobs?${params.toString()}`);
+        const data = await res.json();
+        setJobs(data.jobs || []);
+      } catch (error) {
+        console.error('Failed to fetch jobs:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchJobs();
+  }, [search, category, location]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -73,17 +90,31 @@ export default function FindJobsPage() {
           </select>
         </div>
 
-        <p className="text-muted-foreground mb-6">{filteredJobs.length} jobs found</p>
+        <p className="text-muted-foreground mb-6">{loading ? 'Loading...' : `${jobs.length} jobs found`}</p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredJobs.map(job => (
-            <JobCard key={job.id} {...job} posted={job.posted} isRemote={job.isRemote} />
-          ))}
-        </div>
-
-        {filteredJobs.length === 0 && (
+        {loading ? (
+          <div className="text-center py-16">
+            <p className="text-muted-foreground">Loading jobs...</p>
+          </div>
+        ) : jobs.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-muted-foreground">No jobs found. Try different search criteria.</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {jobs.map(job => (
+              <JobCard
+                key={job.id}
+                id={job.id}
+                title={job.title}
+                company={job.company}
+                location={job.location}
+                salary={job.salary || ''}
+                type={job.category || 'Permanent'}
+                posted={new Date(job.createdAt).toLocaleDateString('en-ZA')}
+                isRemote={job.location.toLowerCase() === 'remote'}
+              />
+            ))}
           </div>
         )}
       </div>

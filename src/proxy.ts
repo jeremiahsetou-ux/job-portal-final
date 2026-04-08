@@ -23,7 +23,7 @@ export function getSiteFromSubdomain(subdomain: string | null): typeof SITES[num
   return site || null;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') || '';
   const url = request.nextUrl;
 

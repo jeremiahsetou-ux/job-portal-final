@@ -27,19 +27,6 @@ export function Navbar() {
             <span>JobHelper</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium hover:text-primary transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
             <Link
@@ -57,9 +44,9 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Menu Button - visible on all sizes */}
           <button
-            className="md:hidden p-2"
+            className="p-2"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -67,9 +54,9 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Navigation Menu */}
         {mobileOpen && (
-          <nav className="md:hidden border-t py-4 space-y-3">
+          <nav className="border-t py-4 space-y-3">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

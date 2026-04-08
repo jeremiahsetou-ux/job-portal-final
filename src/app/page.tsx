@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { Briefcase, Zap, TrendingUp, Users } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { SearchBar } from '@/components/search-bar';
+import { JobSearch } from '@/components/job-search';
 import { JobCard } from '@/components/job-card';
 import { NewsCard } from '@/components/news-card';
 import { AffiliateBox } from '@/components/affiliate-box';
@@ -75,13 +74,6 @@ const AFFILIATE_PRODUCTS = [
 ];
 
 export default function HomePage() {
-  const [searchFilters, setSearchFilters] = useState({ title: '', location: '', category: '' });
-
-  const handleSearch = (filters: { title: string; location: string; category: string }) => {
-    setSearchFilters(filters);
-    console.log('Search filters:', filters);
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -105,7 +97,9 @@ export default function HomePage() {
               </p>
 
               {/* Search Bar */}
-              <SearchBar onSearch={handleSearch} />
+              <div className="max-w-3xl mx-auto">
+                <JobSearch />
+              </div>
 
               {/* Quick Stats */}
               <div className="flex flex-wrap justify-center gap-8 mt-12">
