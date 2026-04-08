@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Zap, TrendingUp, Users } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Briefcase, Zap, TrendingUp, Users, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { JobCard } from '@/components/job-card';
@@ -42,14 +43,6 @@ const MOCK_NEWS = [
     excerpt: 'Everything you need to know about the Z83 government job application form. Avoid common mistakes and improve your chances.',
     imageUrl: 'https://images.unsplash.com/photo-1450101499163-c8848d66c85d?w=600&h=400&fit=crop',
   },
-  {
-    id: '4',
-    headline: 'Remote Work Trends in South Africa',
-    date: '2026-03-20',
-    author: 'JobHelper Team',
-    excerpt: 'Remote work is growing in South Africa. Learn which companies offer flexible arrangements and how to find remote opportunities.',
-    imageUrl: 'https://images.unsplash.com/photo-1593642532407-56b8b7d6c61a?w=600&h=400&fit=crop',
-  },
 ];
 
 const AFFILIATE_PRODUCTS = [
@@ -73,7 +66,38 @@ const AFFILIATE_PRODUCTS = [
   },
 ];
 
+interface NewsPost {
+  id: string;
+  headline: string;
+  title?: string;
+  date: string;
+  publishedAt?: string;
+  author: string;
+  excerpt?: string;
+  imageUrl?: string;
+}
+
 export default function HomePage() {
+  const [newsPosts, setNewsPosts] = useState<NewsPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const res = await fetch('/api/news');
+        const data = await res.json();
+        setNewsPosts(data.posts?.slice(0, 3) || []);
+      } catch (error) {
+        console.error('Failed to fetch news:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchNews();
+  }, []);
+
+  const displayNews = newsPosts.length > 0 ? newsPosts : MOCK_NEWS;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -171,25 +195,41 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Latest Job Opportunities */}
+        {/* Latest Career News & Insights */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">Latest Job Opportunities</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {MOCK_JOBS.map((job) => (
-                <JobCard key={job.id} {...job} />
+            <h2 className="text-3xl font-bold mb-8 text-center">Latest Career News & Insights</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {displayNews.slice(0, 3).map((news) => (
+                <NewsCard
+                  key={news.id}
+                  id={news.id}
+                  headline={news.headline}
+                  date={news.date || ''}
+                  author={news.author}
+                  excerpt={news.excerpt || ''}
+                  imageUrl={news.imageUrl || ''}
+                />
               ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link
+                href="/news"
+                className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
+              >
+                View All News <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* Career News & Tips */}
-        <section className="py-16 bg-muted/30">
+        {/* Featured Opportunities */}
+        <section className="py-12 bg-muted/30">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">Career News & Tips</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {MOCK_NEWS.map((news) => (
-                <NewsCard key={news.id} {...news} />
+            <h2 className="text-2xl font-bold mb-6 text-center">Featured Opportunities</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {MOCK_JOBS.slice(0, 4).map((job) => (
+                <JobCard key={job.id} {...job} />
               ))}
             </div>
           </div>
