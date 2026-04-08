@@ -80,56 +80,61 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="min-h-[500px] py-16 md:py-24 bg-[url('/hero-bg.jpeg')] bg-cover bg-center bg-no-repeat">
-          <div className="min-h-[500px] bg-black/50 flex items-center">
-            <div className="container mx-auto px-4 w-full">
-              <div className="max-w-3xl mx-auto text-center text-white">
-                <div className="inline-flex items-center gap-2 bg-primary/20 text-white px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-                  <Zap size={16} />
-                  <span>#1 Job Portal in South Africa</span>
-                </div>
+        <section className="relative h-[550px] w-full overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-[url('/hero-bg.jpeg')] bg-cover bg-center bg-no-repeat w-full h-full" />
+          </div>
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/60" />
+          {/* Content */}
+          <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
+            <div className="max-w-3xl mx-auto text-center text-white">
+              <div className="inline-flex items-center gap-2 bg-primary/20 text-white px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+                <Zap size={16} />
+                <span>#1 Job Portal in South Africa</span>
+              </div>
 
-                <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                  Find Your Next Job in <span className="text-primary">South Africa</span>
-                </h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">
+                Find Your Next Job in <span className="text-primary">South Africa</span>
+              </h1>
 
-                <p className="text-lg text-gray-200 mb-10">
-                  Thousands of jobs, career advice, and tools to help you succeed.
-                </p>
+              <p className="text-lg text-gray-200 mb-10">
+                Thousands of jobs, career advice, and tools to help you succeed.
+              </p>
 
-                {/* Search Bar */}
-                <div className="max-w-3xl mx-auto">
-                  <JobSearch />
-                </div>
+              {/* Search Bar */}
+              <div className="max-w-3xl mx-auto">
+                <JobSearch />
+              </div>
 
-                {/* Quick Stats */}
-                <div className="flex flex-wrap justify-center gap-8 mt-12">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                      <Briefcase className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-2xl font-bold text-white">12,450</p>
-                      <p className="text-sm text-gray-300">Active Jobs</p>
-                    </div>
+              {/* Quick Stats */}
+              <div className="flex flex-wrap justify-center gap-8 mt-12">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                    <Briefcase className="w-5 h-5 text-white" />
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                      <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-2xl font-bold text-white">850+</p>
-                      <p className="text-sm text-gray-300">Companies</p>
-                    </div>
+                  <div className="text-left">
+                    <p className="text-2xl font-bold text-white">12,450</p>
+                    <p className="text-sm text-gray-300">Active Jobs</p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-2xl font-bold text-white">50K+</p>
-                      <p className="text-sm text-gray-300">Monthly Visitors</p>
-                    </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-2xl font-bold text-white">850+</p>
+                    <p className="text-sm text-gray-300">Companies</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                    <Users className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-2xl font-bold text-white">50K+</p>
+                    <p className="text-sm text-gray-300">Monthly Visitors</p>
                   </div>
                 </div>
               </div>
