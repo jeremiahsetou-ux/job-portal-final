@@ -26,7 +26,7 @@ export function JobSearch() {
             placeholder="Job title, skills, or company"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-3 bg-white text-black placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="flex-1">
@@ -35,7 +35,7 @@ export function JobSearch() {
             placeholder="City, province, or remote"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-3 bg-white text-black placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <button
