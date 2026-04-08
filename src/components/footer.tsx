@@ -23,19 +23,12 @@ export function Footer() {
             </div>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Companies</h4>
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <Link href="/post-job" className="block hover:text-primary">Post a Job</Link>
-              <Link href="/pricing" className="block hover:text-primary">Pricing</Link>
-              <Link href="/enterprise" className="block hover:text-primary">Enterprise</Link>
-            </div>
-          </div>
-          <div>
             <h4 className="font-semibold mb-4">Resources</h4>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <Link href="/blog" className="block hover:text-primary">Blog</Link>
-              <Link href="/salary-guide" className="block hover:text-primary">Salary Guide</Link>
-              <Link href="/interview-tips" className="block hover:text-primary">Interview Tips</Link>
+              <Link href="/news" className="block hover:text-primary">News</Link>
+              <Link href="/learn" className="block hover:text-primary">Learn & Upskill</Link>
+              <Link href="/matric" className="block hover:text-primary">Matric & Learnerships</Link>
+              <Link href="/remote" className="block hover:text-primary">Remote Jobs</Link>
             </div>
           </div>
           <div>
@@ -43,8 +36,28 @@ export function Footer() {
             <div className="space-y-2 text-sm text-muted-foreground">
               <Link href="/about" className="block hover:text-primary">About Us</Link>
               <Link href="/contact" className="block hover:text-primary">Contact</Link>
+              <Link href="/editorial-guidelines" className="block hover:text-primary">Editorial Guidelines</Link>
               <Link href="/careers" className="block hover:text-primary">Careers</Link>
             </div>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Legal & Policy</h4>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <Link href="/privacy-policy" className="block hover:text-primary">Privacy Policy</Link>
+              <Link href="/terms" className="block hover:text-primary">Terms & Conditions</Link>
+              <Link href="/cookie-policy" className="block hover:text-primary">Cookie Policy</Link>
+              <Link href="/accessibility" className="block hover:text-primary">Accessibility</Link>
+              <Link href="/social-media-policy" className="block hover:text-primary">Social Media Policy</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t pt-6 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <Link href="/paia-manual" className="text-muted-foreground hover:text-primary">PAIA Manual</Link>
+            <Link href="/corrections-log" className="text-muted-foreground hover:text-primary">Corrections Log</Link>
+            <Link href="/advertise" className="text-muted-foreground hover:text-primary">Advertise</Link>
+            <Link href="/sitemap.xml" className="text-muted-foreground hover:text-primary">Sitemap</Link>
           </div>
         </div>
 
@@ -53,9 +66,10 @@ export function Footer() {
             © 2026 JobHelper.co.za — Helping South Africans find jobs
           </p>
           <div className="flex gap-4 text-sm">
-            <Link href="/privacy" className="hover:text-primary">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-primary">Terms of Service</Link>
-            <Link href="/cookies" className="hover:text-primary">Cookie Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-primary">Terms</Link>
+            <Link href="/cookie-policy" className="hover:text-primary">Cookies</Link>
+            <Link href="/accessibility" className="hover:text-primary">Accessibility</Link>
           </div>
         </div>
       </div>
