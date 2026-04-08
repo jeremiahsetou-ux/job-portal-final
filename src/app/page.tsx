@@ -1,9 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { Briefcase, Zap, TrendingUp, Users } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { JobSearch } from '@/components/job-search';
 import { JobCard } from '@/components/job-card';
 import { NewsCard } from '@/components/news-card';
 import { AffiliateBox } from '@/components/affiliate-box';
@@ -92,20 +92,49 @@ export default function HomePage() {
             <div className="max-w-3xl mx-auto text-center text-white">
               <div className="inline-flex items-center gap-2 bg-primary/20 text-white px-4 py-1.5 rounded-full text-sm font-medium mb-6">
                 <Zap size={16} />
-                <span>#1 Job Portal in South Africa</span>
+                <span>#1 Job Market Intelligence</span>
               </div>
 
               <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                Find Your Next Job in <span className="text-primary">South Africa</span>
+                South Africa's #1 Job Market Intelligence
               </h1>
 
               <p className="text-lg text-gray-200 mb-10">
-                Thousands of jobs, career advice, and tools to help you succeed.
+                Daily news, career insights, and verified opportunities
               </p>
 
-              {/* Search Bar */}
-              <div className="max-w-3xl mx-auto">
-                <JobSearch />
+              {/* Silo Navigation Buttons */}
+              <div className="flex flex-wrap justify-center gap-3">
+                <Link
+                  href="/government-jobs"
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90"
+                >
+                  Government Jobs
+                </Link>
+                <Link
+                  href="/remote-work"
+                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
+                >
+                  Remote Work
+                </Link>
+                <Link
+                  href="/career-advice"
+                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
+                >
+                  Career Advice
+                </Link>
+                <Link
+                  href="/salary-trends"
+                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
+                >
+                  Salary Trends
+                </Link>
+                <Link
+                  href="/z83-tools"
+                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
+                >
+                  Z83 & Forms
+                </Link>
               </div>
 
               {/* Quick Stats */}
