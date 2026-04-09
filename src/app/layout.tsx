@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { CookieConsent } from "@/components/cookie-consent";
+import { Footer } from "@/components/footer";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -77,6 +78,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-background text-foreground">
         {children}
+        <Footer />
         <CookieConsent />
       </body>
     </html>

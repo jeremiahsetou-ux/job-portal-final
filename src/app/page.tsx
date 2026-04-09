@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Briefcase, Zap, TrendingUp, Users, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { Hero } from '@/components/hero';
 import { JobCard } from '@/components/job-card';
 import { NewsCard } from '@/components/news-card';
 import { AffiliateBox } from '@/components/affiliate-box';
@@ -103,97 +104,7 @@ export default function HomePage() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative h-[550px] w-full overflow-hidden">
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-[url('/hero-bg.jpeg')] bg-cover bg-center bg-no-repeat w-full h-full" />
-          </div>
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/60" />
-          {/* Content */}
-          <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
-            <div className="max-w-3xl mx-auto text-center text-white">
-              <div className="inline-flex items-center gap-2 bg-primary/20 text-white px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-                <Zap size={16} />
-                <span>#1 Job Market Intelligence</span>
-              </div>
-
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                South Africa's #1 Job Market Intelligence
-              </h1>
-
-              <p className="text-lg text-gray-200 mb-10">
-                Daily news, career insights, and verified opportunities
-              </p>
-
-              {/* Silo Navigation Buttons */}
-              <div className="flex flex-wrap justify-center gap-3">
-                <Link
-                  href="/government-jobs"
-                  className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90"
-                >
-                  Government Jobs
-                </Link>
-                <Link
-                  href="/remote-work"
-                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
-                >
-                  Remote Work
-                </Link>
-                <Link
-                  href="/career-advice"
-                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
-                >
-                  Career Advice
-                </Link>
-                <Link
-                  href="/salary-trends"
-                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
-                >
-                  Salary Trends
-                </Link>
-                <Link
-                  href="/z83-tools"
-                  className="px-6 py-3 border border-white/30 text-white rounded-lg font-medium hover:bg-white/10"
-                >
-                  Z83 & Forms
-                </Link>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="flex flex-wrap justify-center gap-8 mt-12">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                    <Briefcase className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-2xl font-bold text-white">12,450</p>
-                    <p className="text-sm text-gray-300">Active Jobs</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-2xl font-bold text-white">850+</p>
-                    <p className="text-sm text-gray-300">Companies</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                    <Users className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-2xl font-bold text-white">50K+</p>
-                    <p className="text-sm text-gray-300">Monthly Visitors</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <Hero />
 
         {/* Latest Career News & Insights */}
         <section className="py-16">
