@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   images: {
     remotePatterns: [
       {
@@ -12,6 +13,9 @@ const nextConfig: NextConfig = {
         hostname: '*.vercel.app',
       },
     ],
+  },
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
   },
 };
 
