@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  /* Base colors */
   --background: #ffffff;
   --foreground: #0f172a;
   
@@ -10,11 +11,12 @@
   --popover: #ffffff;
   --popover-foreground: #0f172a;
   
-  --primary: #2563eb;
+  /* JobHelper Brand Colors */
+  --primary: #0d9488;        /* Teal-600 */
   --primary-foreground: #ffffff;
   
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
+  --secondary: #1d4ed8;     /* Blue-700 */
+  --secondary-foreground: #ffffff;
   
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
@@ -27,7 +29,13 @@
   
   --border: #e2e8f0;
   --input: #e2e8f0;
-  --ring: #2563eb;
+  --ring: #0d9488;
+  
+  /* Job-specific colors */
+  --job-remote: #10b981;
+  --job-government: #f59e0b;
+  --job-urgent: #ef4444;
+  --job-featured: #8b5cf6;
 }
 
 @theme inline {
@@ -50,8 +58,15 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  
+  /* Job utility colors */
+  --color-job-remote: var(--job-remote);
+  --color-job-government: var(--job-government);
+  --color-job-urgent: var(--job-urgent);
+  --color-job-featured: var(--job-featured);
 }
 
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0f172a;
@@ -63,11 +78,11 @@
     --popover: #1e293b;
     --popover-foreground: #f8fafc;
     
-    --primary: #3b82f6;
+    --primary: #14b8a6;      /* Teal-500 for dark */
     --primary-foreground: #ffffff;
     
-    --secondary: #1e293b;
-    --secondary-foreground: #f8fafc;
+    --secondary: #3b82f6;    /* Blue-500 for dark */
+    --secondary-foreground: #ffffff;
     
     --muted: #1e293b;
     --muted-foreground: #94a3b8;
@@ -80,10 +95,11 @@
     
     --border: #334155;
     --input: #334155;
-    --ring: #3b82f6;
+    --ring: #14b8a6;
   }
 }
 
+/* Base styles */
 * {
   border-color: var(--border);
 }
@@ -91,9 +107,161 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Hero background image handling */
+.hero-bg {
+  background-image: url('/hero-bg.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Fallback for hero on image load failure */
+.hero-bg-fallback {
+  background: linear-gradient(135deg, #0d9488 0%, #1d4ed8 100%);
+}
+
+/* ============================================
+   JOB LISTING UTILITY CLASSES
+   ============================================ */
+
+/* Job Card */
+.job-card {
+  @apply bg-card border rounded-lg p-4 transition-all duration-200;
+  @apply hover:shadow-lg hover:border-primary/30;
+}
+
+.job-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Job Badge */
+.job-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.job-badge--remote {
+  @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200;
+}
+
+.job-badge--government {
+  @apply bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200;
+}
+
+.job-badge--urgent {
+  @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+}
+
+.job-badge--featured {
+  @apply bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-200;
+}
+
+.job-badge--new {
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+}
+
+/* Job Location Tag */
+.job-location {
+  @apply inline-flex items-center gap-1 text-sm text-muted-foreground;
+}
+
+/* Job Salary */
+.job-salary {
+  @apply font-semibold text-primary;
+}
+
+/* Job Company */
+.job-company {
+  @apply text-sm font-medium text-foreground;
+}
+
+/* Job Title */
+.job-title {
+  @apply font-semibold text-lg text-foreground hover:text-primary transition-colors;
+}
+
+/* Job Type Tag */
+.job-type {
+  @apply text-xs uppercase tracking-wide text-muted-foreground;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS (Mobile First)
+   ============================================ */
+
+/* Mobile: 0 - 639px (default) */
+/* Tablet: 640px - 1023px */
+/* Desktop: 1024px - 1279px */
+/* Large Desktop: 1280px+ */
+
+/* Example mobile-first utility extensions */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+  
+  @media (min-width: 640px) {
+    max-width: 640px;
+    padding-inline: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    max-width: 768px;
+  }
+  
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+    padding-inline: 2rem;
+  }
+  
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+  }
+}
+
+/* Smooth scroll for anchor links */
+a[href^="#"] {
+  scroll-margin-top: 2rem;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+/* Selection color */
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-foreground);
 }
