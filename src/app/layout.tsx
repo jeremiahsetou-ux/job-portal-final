@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Footer } from "@/components/footer";
+import { WebsiteSchema, BreadcrumbSchema } from "@/components/structured-data";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -76,6 +77,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <WebsiteSchema />
+        <BreadcrumbSchema items={[
+          { name: "Home", url: "https://jobhelper.co.za" },
+          { name: "Jobs", url: "https://jobhelper.co.za/find-jobs" },
+        ]} />
+      </head>
       <body className="min-h-screen flex flex-col bg-background text-foreground">
         {children}
         <Footer />

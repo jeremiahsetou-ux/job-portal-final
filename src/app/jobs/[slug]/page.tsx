@@ -5,6 +5,7 @@ import { MapPin, Clock, DollarSign, Briefcase, ArrowRight, Calendar, User } from
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { NewsCard } from '@/components/news-card';
+import { Breadcrumbs } from '@/components/breadcrumbs';
 
 interface JobPageProps {
   params: Promise<{ slug: string }>;
@@ -293,6 +294,7 @@ export default async function JobPage({ params }: JobPageProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+      <Breadcrumbs />
       <main className="flex-1">
         <script
           type="application/ld+json"

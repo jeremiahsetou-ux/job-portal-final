@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { Calendar, User, ArrowRight, Link2 } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { Breadcrumbs } from '@/components/breadcrumbs';
+import { NewsArticleSchema } from '@/components/structured-data';
 
 interface ArticleProps {
   params: Promise<{ slug: string }>;
@@ -152,7 +154,15 @@ export default async function CareerAdviceArticlePage({ params }: ArticleProps) 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+      <Breadcrumbs />
       <main className="flex-1">
+        <NewsArticleSchema article={{
+          headline: article.title,
+          description: article.excerpt,
+          author: article.author,
+          datePublished: article.publishDate,
+          url: `https://jobhelper.co.za/career-advice/${article.slug}`,
+        }} />
         <article className="container mx-auto px-4 py-12 max-w-4xl">
           <header className="mb-8">
             <Link
