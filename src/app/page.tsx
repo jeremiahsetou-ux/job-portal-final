@@ -4,19 +4,16 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Briefcase, Zap, TrendingUp, Users, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-
 import { Hero } from '@/components/hero';
-import { JobCard } from '@/components/job-card';
 import { NewsCard } from '@/components/news-card';
+import { JobListing } from '@/components/job-listing';
 import { AffiliateBox } from '@/components/affiliate-box';
 
 const MOCK_JOBS = [
-  { id: '1', title: 'Senior Software Developer', company: 'Standard Bank', location: 'Johannesburg', postedAt: '2 days ago', remote: false },
-  { id: '2', title: 'Marketing Manager', company: 'Sasol', location: 'Sandton', postedAt: '1 day ago', remote: false },
-  { id: '3', title: 'Data Analyst - Remote', company: 'Tech Corp', location: 'Remote', postedAt: '3 days ago', remote: true },
-  { id: '4', title: 'Government Clerk', company: 'Dept of Home Affairs', location: 'Pretoria', postedAt: '5 hours ago', remote: false },
-  { id: '5', title: 'Customer Success Manager', company: 'Finance Ltd', location: 'Cape Town', postedAt: '1 day ago', remote: false },
-  { id: '6', title: 'HR Manager', company: 'MTN', location: 'Johannesburg', postedAt: '2 days ago', remote: false },
+  { id: '1', slug: 'senior-software-developer', title: 'Senior Software Developer', company: 'Standard Bank', location: 'Johannesburg', postedDate: '2 days ago', salary: 'R45,000 - R65,000', category: 'IT & Software' },
+  { id: '2', slug: 'marketing-manager', title: 'Marketing Manager', company: 'Sasol', location: 'Johannesburg', postedDate: '1 day ago', salary: 'R55,000 - R75,000', category: 'Marketing' },
+  { id: '3', slug: 'data-analyst-remote', title: 'Data Analyst - Remote', company: 'Tech Corp', location: 'Remote', postedDate: '3 days ago', salary: 'R30,000 - R45,000', category: 'IT & Software' },
+  { id: '4', slug: 'government-clerk', title: 'Government Clerk', company: 'Dept of Home Affairs', location: 'Pretoria', postedDate: '5 hours ago', salary: 'R18,000 - R25,000', category: 'Government' },
 ];
 
 const MOCK_NEWS = [
@@ -25,7 +22,7 @@ const MOCK_NEWS = [
     headline: 'How to Write a Winning CV in South Africa',
     date: '2026-04-01',
     author: 'JobHelper Team',
-    excerpt: 'Learn the essential tips and tricks to create a CV that stands out to South African employers. From formatting to content, we cover everything.',
+    excerpt: 'Learn the essential tips and tricks to create a CV that stands out to South African employers.',
     imageUrl: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&h=400&fit=crop',
   },
   {
@@ -33,7 +30,7 @@ const MOCK_NEWS = [
     headline: 'Top 50 Highest Paying Jobs in SA 2026',
     date: '2026-03-28',
     author: 'JobHelper Team',
-    excerpt: 'Discover the highest paying jobs in South Africa this year. From tech to finance, see which roles offer the best salaries.',
+    excerpt: 'Discover the highest paying jobs in South Africa this year across various industries.',
     imageUrl: 'https://images.unsplash.com/photo-1553877522-43269d4a4d4b?w=600&h=400&fit=crop',
   },
   {
@@ -41,7 +38,7 @@ const MOCK_NEWS = [
     headline: 'Government Jobs Guide: Z83 Form Explained',
     date: '2026-03-25',
     author: 'JobHelper Team',
-    excerpt: 'Everything you need to know about the Z83 government job application form. Avoid common mistakes and improve your chances.',
+    excerpt: 'Everything you need to know about the Z83 government job application form.',
     imageUrl: 'https://images.unsplash.com/photo-1450101499163-c8848d66c85d?w=600&h=400&fit=crop',
   },
 ];
@@ -50,7 +47,7 @@ const AFFILIATE_PRODUCTS = [
   {
     name: 'JobWinner AI',
     rating: 5,
-    description: 'AI-powered resume builder that helps you create professional CVs in minutes. 30% recurring commission.',
+    description: 'AI-powered resume builder that helps you create professional CVs in minutes.',
     url: 'https://jobwinner.ai',
   },
   {
@@ -102,11 +99,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-
       <main className="flex-1">
         <Hero />
 
-        {/* Latest Career News & Insights */}
         <section className="py-16">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold mb-8 text-center">Latest Career News & Insights</h2>
@@ -134,19 +129,31 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Featured Opportunities */}
         <section className="py-12 bg-muted/30">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-bold mb-6 text-center">Featured Opportunities</h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">Latest Job Opportunities</h2>
+              <Link href="/jobs" className="text-primary font-medium hover:underline">
+                View All Jobs <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {MOCK_JOBS.slice(0, 4).map((job) => (
-                <JobCard key={job.id} {...job} />
+              {MOCK_JOBS.map((job) => (
+                <JobListing
+                  key={job.id}
+                  title={job.title}
+                  company={job.company}
+                  location={job.location}
+                  postedDate={job.postedDate}
+                  salary={job.salary}
+                  category={job.category}
+                  applyUrl={`/jobs/${job.slug}`}
+                />
               ))}
             </div>
           </div>
         </section>
 
-        {/* Recommendations (Affiliate) */}
         <section className="py-16">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold mb-8 text-center">Recommended Tools for Job Seekers</h2>
@@ -158,8 +165,6 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-
-      
     </div>
   );
 }
