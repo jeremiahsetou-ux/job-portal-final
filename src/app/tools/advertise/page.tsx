@@ -147,7 +147,6 @@ export default function AdvertisePage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

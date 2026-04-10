@@ -124,7 +124,6 @@ export default function Z83FormPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

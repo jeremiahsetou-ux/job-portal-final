@@ -111,7 +111,6 @@ export default function PostAJobPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }
