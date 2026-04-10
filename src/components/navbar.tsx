@@ -4,11 +4,18 @@ import * as React from 'react';
 import { Briefcase, Menu, X, User, LogIn, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 import { SILOS, TOOLS } from '@/lib/navigation';
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [toolsOpen, setToolsOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b">
@@ -21,7 +28,8 @@ export function Navbar() {
             <span>JobHelper</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-6">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-6">
             {SILOS.map((silo) => (
               <Link
                 key={silo.href}
@@ -47,9 +55,10 @@ export function Navbar() {
                 ))}
               </div>
             </div>
-          </div>
+          </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          {/* Desktop Auth Buttons */}
+          <div className="hidden lg:flex items-center gap-3">
             <Link href="/sign-in" className="text-sm font-medium hover:text-primary">
               Sign In
             </Link>
@@ -61,62 +70,66 @@ export function Navbar() {
             </Link>
           </div>
 
-          <button
-            className="p-2 md:hidden"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Menu Button - visible on all sizes */}
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] sm:w-[350px]">
+              <SheetHeader>
+                <SheetTitle>Navigation</SheetTitle>
+              </SheetHeader>
+              <nav className="mt-4 space-y-1">
+                {SILOS.map((silo) => (
+                  <Link
+                    key={silo.href}
+                    href={silo.href}
+                    className="block py-3 px-4 text-sm font-medium hover:bg-muted rounded-md"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {silo.title}
+                  </Link>
+                ))}
+                
+                <div className="border-t my-4" />
+                
+                <div className="px-4 py-2">
+                  <span className="text-xs font-semibold text-muted-foreground uppercase">Tools</span>
+                </div>
+                {TOOLS.children?.map((tool) => (
+                  <Link
+                    key={tool.href}
+                    href={tool.href}
+                    className="block py-2.5 px-6 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {tool.title}
+                  </Link>
+                ))}
+
+                <div className="border-t my-4" />
+                
+                <Link
+                  href="/sign-in"
+                  className="flex items-center gap-2 py-2 px-4 text-sm font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <User className="w-4 h-4" /> Sign In
+                </Link>
+                <Link
+                  href="/tools/post-a-job"
+                  className="block mx-4 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md text-center"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Post a Job
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
-
-        {mobileOpen && (
-          <nav className="border-t py-4 md:hidden space-y-1">
-            {SILOS.map((silo) => (
-              <Link
-                key={silo.href}
-                href={silo.href}
-                className="block py-3 px-4 text-sm font-medium hover:bg-muted rounded-md"
-                onClick={() => setMobileOpen(false)}
-              >
-                {silo.title}
-              </Link>
-            ))}
-            
-            <div className="border-t my-2" />
-            
-            <div className="px-4 py-2">
-              <span className="text-xs font-semibold text-muted-foreground uppercase">Tools</span>
-            </div>
-            {TOOLS.children?.map((tool) => (
-              <Link
-                key={tool.href}
-                href={tool.href}
-                className="block py-2.5 px-6 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md"
-                onClick={() => setMobileOpen(false)}
-              >
-                {tool.title}
-              </Link>
-            ))}
-
-            <div className="border-t my-4" />
-            
-            <Link
-              href="/sign-in"
-              className="flex items-center gap-2 py-2 px-4 text-sm font-medium"
-              onClick={() => setMobileOpen(false)}
-            >
-              <User className="w-4 h-4" /> Sign In
-            </Link>
-            <Link
-              href="/tools/post-a-job"
-              className="block mx-4 bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md text-center"
-              onClick={() => setMobileOpen(false)}
-            >
-              Post a Job
-            </Link>
-          </nav>
-        )}
       </div>
     </header>
   );
