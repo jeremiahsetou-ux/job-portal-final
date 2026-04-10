@@ -39,6 +39,14 @@ export const TOOLS: NavItem = {
       title: "Z83 Form",
       href: "/tools/z83-form",
     },
+    {
+      title: "Post a Job",
+      href: "/tools/post-a-job",
+    },
+    {
+      title: "Advertise",
+      href: "/tools/advertise",
+    },
   ],
 };
 
