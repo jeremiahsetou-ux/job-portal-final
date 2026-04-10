@@ -1,15 +1,14 @@
-import { createClient } from 'next-sanity'
+// Mock Sanity client - replace with actual next-sanity import when ready
+// import { createClient } from 'next-sanity'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'your-project-id'
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-01-01'
 
-export const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn: process.env.NODE_ENV === 'production',
-})
+// Mock client for now
+export const client = {
+  fetch: async () => [],
+}
 
 export const JOB_FIELDS = `
   _id,
@@ -24,7 +23,6 @@ export const JOB_FIELDS = `
   "category": category->{name, "slug": slug.current},
   applyUrl,
   isActive,
-  _createdAt,
 `
 
 export const ARTICLE_FIELDS = `
@@ -65,31 +63,11 @@ export async function getJobs(options?: {
   limit?: number
   offset?: number
 }): Promise<any[]> {
-  const { category, limit = 20, offset = 0 } = options || {}
-  
-  let filter = 'isActive == true'
-  if (category) {
-    filter += ' && category->slug.current == $category'
-  }
-
-  const query = `
-    *[_type == "jobPosting" && ${filter}]
-    | order(_createdAt desc)[$offset...$offset + $limit] {
-      ${JOB_FIELDS}
-    }
-  `
-
-  return client.fetch(query, { category, offset, limit })
+  return []
 }
 
 export async function getJobBySlug(slug: string): Promise<any | null> {
-  const query = `
-    *[_type == "jobPosting" && slug.current == $slug][0] {
-      ${JOB_FIELDS}
-    }
-  `
-
-  return client.fetch(query, { slug })
+  return null
 }
 
 export async function getArticles(options?: {
@@ -97,76 +75,25 @@ export async function getArticles(options?: {
   limit?: number
   offset?: number
 }): Promise<any[]> {
-  const { category, limit = 20, offset = 0 } = options || {}
-  
-  let filter = ''
-  if (category) {
-    filter = ' && category->slug.current == $category'
-  }
-
-  const query = `
-    *[_type == "article"$filter]
-    | order(publishDate desc)[$offset...$offset + $limit] {
-      ${ARTICLE_FIELDS}
-    }
-  `
-
-  return client.fetch(query, { category, offset, limit })
+  return []
 }
 
 export async function getArticleBySlug(slug: string): Promise<any | null> {
-  const query = `
-    *[_type == "article" && slug.current == $slug][0] {
-      ${ARTICLE_FIELDS},
-      content
-    }
-  `
-
-  return client.fetch(query, { slug })
+  return null
 }
 
 export async function getRelatedArticles(keyword: string, limit = 3): Promise<any[]> {
-  const query = `
-    *[_type == "article" && (targetKeyword match $keyword || targetKeyword in themeWords)]
-    | order(publishDate desc)[0...$limit] {
-      ${ARTICLE_FIELDS}
-    }
-  `
-
-  return client.fetch(query, { keyword: `*${keyword}*`, limit })
+  return []
 }
 
 export async function getCategories(): Promise<any[]> {
-  const query = `
-    *[_type == "category" && !defined(parentCategory)] | order(name asc) {
-      ${CATEGORY_FIELDS},
-      "subcategories": *[_type == "category" && references(^._id)] {
-        ${CATEGORY_FIELDS}
-      }
-    }
-  `
-
-  return client.fetch(query)
+  return []
 }
 
 export async function getFeaturedJobs(limit = 10): Promise<any[]> {
-  const query = `
-    *[_type == "jobPosting" && isActive == true]
-    | order(_createdAt desc)[0...$limit] {
-      ${JOB_FIELDS}
-    }
-  `
-
-  return client.fetch(query, { limit })
+  return []
 }
 
 export async function getFeaturedArticles(limit = 6): Promise<any[]> {
-  const query = `
-    *[_type == "article" && isFeatured == true]
-    | order(publishDate desc)[0...$limit] {
-      ${ARTICLE_FIELDS}
-    }
-  `
-
-  return client.fetch(query, { limit })
+  return []
 }

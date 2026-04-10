@@ -1,15 +1,15 @@
-'use client';
-
-import Link from 'next/link';
 import { Metadata } from 'next';
-import { Sitemap, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { Map, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 
-export const metadata: Metadata = {
-  title: 'Sitemap | JobHelper - All Pages',
-  description: 'Complete list of all pages on JobHelper.co.za - Find government jobs, remote work, career advice, learnerships, and more.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Sitemap | JobHelper - All Pages',
+    description: 'Complete list of all pages on JobHelper.co.za - Find government jobs, remote work, career advice, learnerships, and more.',
+  };
+}
 
 const SILO_PAGES = [
   { title: 'Government Jobs', href: '/government-jobs', description: 'DPSA circulars and public service vacancies' },
@@ -48,7 +48,7 @@ export default function SitemapPage() {
       <main className="flex-1">
         <section className="py-12 bg-gradient-to-r from-blue-600 to-indigo-700">
           <div className="container mx-auto px-4 text-center text-white">
-            <Sitemap className="w-16 h-16 mx-auto mb-4" />
+            <Map className="w-16 h-16 mx-auto mb-4" />
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Sitemap</h1>
             <p className="text-xl text-gray-200 max-w-2xl mx-auto">
               All pages on JobHelper.co.za - Find what you need quickly
