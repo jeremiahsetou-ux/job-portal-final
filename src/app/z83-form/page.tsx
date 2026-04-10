@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Z83Form } from '@/components/z83-form';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 
 export default function Z83FormPage() {
   return (
@@ -27,7 +27,7 @@ export default function Z83FormPage() {
           <Z83Form />
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 }

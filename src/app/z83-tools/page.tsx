@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { FileText, Download, BookOpen, ArrowRight, CheckCircle } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 
 export const metadata: Metadata = {
   title: 'Z83 Form Helper & Government Job Tools | JobHelper',
@@ -129,7 +129,7 @@ export default function Z83ToolsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }

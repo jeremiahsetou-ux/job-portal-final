@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { FileText, Briefcase, ArrowRight, MapPin, Clock } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
 import { NewsCard } from '@/components/news-card';
 
 export const metadata: Metadata = {
@@ -103,7 +102,7 @@ export default function GovernmentJobsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }

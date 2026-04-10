@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Globe, Home, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 import { JobListing } from '@/components/job-listing';
 
 export const metadata: Metadata = {
@@ -95,7 +95,7 @@ export default function RemoteGigJobsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Calendar, User, ArrowRight, Link2 } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { NewsArticleSchema } from '@/components/structured-data';
 
@@ -188,7 +188,7 @@ export default async function CareerAdviceArticlePage({ params }: ArticleProps) 
           </aside>
         </article>
       </main>
-      <Footer />
+      
     </div>
   );
 }

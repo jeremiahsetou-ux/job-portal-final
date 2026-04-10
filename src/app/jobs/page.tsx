@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, MapPin, Briefcase, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
 import { JobListing } from '@/components/job-listing';
 
 interface Job {
@@ -115,7 +114,7 @@ export default function JobsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }

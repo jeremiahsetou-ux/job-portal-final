@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Map, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -135,7 +135,7 @@ export default function SitemapPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }

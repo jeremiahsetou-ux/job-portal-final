@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 
 export const metadata: Metadata = {
   title: 'South Africa Job Market News & Updates | JobHelper',
@@ -117,7 +117,7 @@ export default function NewsUpdatesPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }

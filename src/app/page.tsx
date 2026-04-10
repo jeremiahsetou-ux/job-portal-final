@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Briefcase, Zap, TrendingUp, Users, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 import { Hero } from '@/components/hero';
 import { JobCard } from '@/components/job-card';
 import { NewsCard } from '@/components/news-card';
@@ -159,7 +159,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      <Footer />
+      
     </div>
   );
 }

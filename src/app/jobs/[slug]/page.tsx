@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { MapPin, Clock, DollarSign, Briefcase, ArrowRight, Calendar, User } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 import { NewsCard } from '@/components/news-card';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 
@@ -436,7 +436,7 @@ export default async function JobPage({ params }: JobPageProps) {
           </section>
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 }

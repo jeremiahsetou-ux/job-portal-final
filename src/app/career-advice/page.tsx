@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { GraduationCap, FileText, MessageCircle, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
 import { NewsCard } from '@/components/news-card';
 
 export const metadata: Metadata = {
@@ -105,7 +104,6 @@ export default function CareerAdvicePage() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

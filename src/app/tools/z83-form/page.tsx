@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { FileText, Download, ArrowRight, AlertCircle } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
   title: 'Z83 Application Form – Fill Online & Download PDF | JobHelper',

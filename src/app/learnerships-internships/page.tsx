@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { GraduationCap, ArrowRight, Calendar, MapPin } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 
 export const metadata: Metadata = {
   title: 'Learnerships & Internships in South Africa 2026 | JobHelper',
@@ -128,7 +128,7 @@ export default function LearnershipsInternshipsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }

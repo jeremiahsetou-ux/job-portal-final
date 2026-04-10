@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { DollarSign, TrendingUp, Users, ArrowRight, Briefcase } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+
 import { NewsCard } from '@/components/news-card';
 
 export const metadata: Metadata = {
@@ -109,7 +109,7 @@ export default function SalaryTrendsPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </div>
   );
 }
