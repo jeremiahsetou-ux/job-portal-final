@@ -32,10 +32,10 @@ export function Footer() {
               <Link href="/learnerships-internships" className="block hover:text-primary">
                 Learnerships & Internships
               </Link>
-              <Link href="/learn" className="block hover:text-primary">
+              <Link href="/career-advice?category=skills" className="block hover:text-primary">
                 Learn & Upskill
               </Link>
-              <Link href="/matric" className="block hover:text-primary">
+              <Link href="/career-advice/matric-success" className="block hover:text-primary">
                 Matric Success
               </Link>
             </div>
@@ -86,10 +86,10 @@ export function Footer() {
               <Link href="/tools/z83-form" className="block hover:text-primary">
                 Z83 Form
               </Link>
-              <Link href="/post-job" className="block hover:text-primary">
+              <Link href="/tools/post-a-job" className="block hover:text-primary">
                 Post a Job
               </Link>
-              <Link href="/advertise" className="block hover:text-primary">
+              <Link href="/tools/advertise" className="block hover:text-primary">
                 Advertise with Us
               </Link>
               <Link href="/sitemap" className="block hover:text-primary">
