@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Briefcase, Menu, X, User, LogIn, ChevronDown } from 'lucide-react';
+import { Briefcase, User, LogIn, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import {
@@ -28,53 +28,13 @@ export function Navbar() {
             <span>JobHelper</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6">
-            {SILOS.map((silo) => (
-              <Link
-                key={silo.href}
-                href={silo.href}
-                className="text-sm font-medium hover:text-primary"
-              >
-                {silo.title}
-              </Link>
-            ))}
-            <div className="relative group">
-              <button className="text-sm font-medium hover:text-primary flex items-center gap-1">
-                Tools <ChevronDown className="w-4 h-4" />
-              </button>
-              <div className="absolute top-full right-0 mt-1 w-48 bg-card border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                {TOOLS.children?.map((tool) => (
-                  <Link
-                    key={tool.href}
-                    href={tool.href}
-                    className="block px-4 py-2 text-sm hover:bg-muted"
-                  >
-                    {tool.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </nav>
-
-          {/* Desktop Auth Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link href="/sign-in" className="text-sm font-medium hover:text-primary">
-              Sign In
-            </Link>
-            <Link
-              href="/tools/post-a-job"
-              className="bg-primary text-primary-foreground text-sm font-medium px-4 py-2 rounded-md hover:bg-primary/90"
-            >
-              Post a Job
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button - visible on all sizes */}
+          {/* Desktop Menu Button - triggers Sheet on all sizes */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
