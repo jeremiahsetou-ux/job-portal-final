@@ -14,6 +14,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin", "/api", "/private"],
       },
     ],
-    sitemap: "https://jobhelper.co.za/sitemap.xml",
+    sitemap: [
+      "https://jobhelper.co.za/sitemap.xml",
+      "https://jobhelper.co.za/news-sitemap.xml",
+    ],
   };
 }
