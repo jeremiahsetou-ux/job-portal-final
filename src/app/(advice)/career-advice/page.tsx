@@ -5,10 +5,16 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { NewsCard } from '@/components/news-card';
 
-export const metadata: Metadata = {
-  title: 'Career Advice – CV Tips, Interviews & Skills Development | JobHelper',
-  description: 'Expert career advice for South Africans. CV tips, interview guides, skills development, and career growth strategies.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Career Advice in South Africa | CV Tips & Interview Guides | JobHelper',
+    description: 'Expert career advice for South Africans. Get CV tips, interview guides, skills development strategies, and career growth advice to land your dream job.',
+    openGraph: {
+      title: 'Career Advice South Africa | CV Tips & Interview Guides | JobHelper',
+      description: 'Expert career advice for South Africans. CV tips, interview guides, and career growth strategies.',
+    },
+  };
+}
 
 const CV_TIPS = [
   { id: '1', headline: 'How to Write a Winning CV in South Africa', date: '2026-04-07', author: 'JobHelper Team', excerpt: 'Learn the essential tips and tricks to create a CV that stands out to South African employers.', imageUrl: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&h=400&fit=crop' },

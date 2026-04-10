@@ -5,10 +5,16 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { NewsCard } from '@/components/news-card';
 
-export const metadata: Metadata = {
-  title: 'Learnerships & Internships South Africa | JobHelper',
-  description: 'Find learnerships, internships, and entry-level programs in South Africa. Graduate jobs, training opportunities, and youth employment.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Learnerships & Internships in South Africa | Entry-Level Programs | JobHelper',
+    description: 'Find learnerships, internships, and graduate programs in South Africa. SETA-funded training opportunities and youth employment programs updated regularly.',
+    openGraph: {
+      title: 'Learnerships & Internships South Africa | Entry-Level Programs | JobHelper',
+      description: 'Find learnerships and internships in South Africa. SETA-funded training opportunities.',
+    },
+  };
+}
 
 const LEARNERSHIPS = [
   { id: '1', title: 'ICT Learnership - Level 4', company: 'MICT SETA', location: 'Johannesburg', category: 'ICT', duration: '12 months', closing: '2026-04-20' },

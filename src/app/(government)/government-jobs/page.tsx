@@ -5,10 +5,16 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { NewsCard } from '@/components/news-card';
 
-export const metadata: Metadata = {
-  title: 'Government Jobs South Africa – DPSA Circulars & Vacancies | JobHelper',
-  description: 'Find the latest government job vacancies in South Africa. DPSA circulars, civil service jobs, and Z83 form guides.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Government Jobs in South Africa | Latest Vacancies | JobHelper',
+    description: 'Find government jobs, DPSA circulars, and public service vacancies in South Africa. Updated weekly with latest government employment opportunities.',
+    openGraph: {
+      title: 'Government Jobs South Africa | Latest Vacancies | JobHelper',
+      description: 'Find government jobs, DPSA circulars, and public service vacancies. Updated weekly.',
+    },
+  };
+}
 
 const GOVERNMENT_JOBS = [
   { id: '1', title: 'Government Clerk', company: 'Dept of Home Affairs', location: 'Pretoria', category: 'Government', postedAt: '5 hours ago', remote: false },

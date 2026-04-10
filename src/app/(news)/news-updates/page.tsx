@@ -1,10 +1,16 @@
 'use client';
 
+import { Metadata } from 'next';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, User, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+
+export const metadata: Metadata = {
+  title: 'Job Market News South Africa | Latest Updates & Trends | JobHelper',
+  description: 'Stay updated with the latest job market news, employment trends, salary insights, and career advice in South Africa. Daily updates on government jobs and opportunities.',
+};
 
 interface Category {
   id: string;

@@ -5,10 +5,16 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { NewsCard } from '@/components/news-card';
 
-export const metadata: Metadata = {
-  title: 'Remote & Gig Jobs South Africa – Work From Home & Freelance | JobHelper',
-  description: 'Find remote work, gig economy jobs, and freelance opportunities in South Africa. Work from home jobs and flexible employment.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Remote & Gig Jobs in South Africa | Work From Home | JobHelper',
+    description: 'Find remote work, gig economy jobs, and freelance opportunities in South Africa. Updated daily with work from home positions and flexible employment.',
+    openGraph: {
+      title: 'Remote & Gig Jobs South Africa | Work From Home | JobHelper',
+      description: 'Find remote work and gig jobs in South Africa. Updated daily.',
+    },
+  };
+}
 
 const REMOTE_JOBS = [
   { id: '1', title: 'Remote Data Analyst', company: 'Tech Corp', location: 'Remote', category: 'IT', postedAt: '1 day ago', remote: true },
